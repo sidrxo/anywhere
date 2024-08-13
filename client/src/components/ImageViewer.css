@@ -35,6 +35,7 @@
   transform: translateX(-230px); /* Adjust value to shift content left */
 }
 
+
 .image-viewer-content.shifted {
   transform: translateX(-5vh); /* Adjust value to shift content left */
 
