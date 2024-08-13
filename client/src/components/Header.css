@@ -1,34 +1,37 @@
 header {
   display: flex;
   width: 100%;
-  height: 20px; /* Adjust height as needed */
-  position: fixed; /* Fixes the header to the top of the page */
-  top: 20px ;
+  height: 60px; /* Adjust height as needed */
+  position: fixed;
+  top: 0;
   left: 0;
-  z-index: 1000; /* Ensure it sits above other content */
-
+  z-index: 1000;
+  background-color: white;
+  transition: transform 0.1s ease-out;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better visibility */
 }
 
+/* Additional styles for header links */
 header a {
-  color: black; /* Default link color */
-  text-decoration: none; /* Removes underline from links */
-  opacity: 0.4; /* Default opacity */
-  transition: opacity 0.3s ease; /* Smooth transition for opacity changes */
+  color: black;
+  text-decoration: none;
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
 }
 
 header a:hover {
-  opacity: 1; /* Opacity when hovered */
+  opacity: 1;
 }
 
 .header-section {
-  flex: 1; /* Makes each section take up 1/3 of the header width */
+  flex: 1;
   display: flex;
   align-items: center;
 }
 
 #section1 {
-  justify-content: flex-start; /* Aligns items to the left */
-  padding-left: 20px; /* Optional padding on the left */
+  justify-content: flex-start;
+  padding-left: 20px;
 }
 
 #section1 h1 {
@@ -36,38 +39,19 @@ header a:hover {
 }
 
 #section2 {
-  justify-content: center; /* Centers items horizontally */
+  justify-content: center;
 }
 
 #section2 nav {
   display: flex;
-  gap: 20px; /* Spacing between links */
+  gap: 20px;
 }
-
-#section2 a {
-  text-decoration: none; /* Remove underline */
-}
-
-#section2 a:hover {
-  text-decoration: underline; /* Underline on hover */
-}
-
 
 #section3 {
-  justify-content: center; /* Centers items horizontally */
+  justify-content: center;
 }
 
 #section3 nav {
   display: flex;
-  gap: 20px; /* Spacing between links */
-
+  gap: 20px;
 }
-
-#section3 a {
-  text-decoration: none; /* Remove underline */
-}
-
-#section3 a:hover {
-  text-decoration: underline; /* Underline on hover */
-}
-

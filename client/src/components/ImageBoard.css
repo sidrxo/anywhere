@@ -1,6 +1,5 @@
 .image-board {
   column-count: var(--num-columns);
-  column-gap: var(--image-padding);
   box-sizing: border-box;
   overflow: hidden; /* Prevents scrolling issues within the container */
 }
@@ -20,7 +19,6 @@
 }
 
 .image-board-container {
-  margin-top: 0px; /* Match this to the height of the header */
   overflow: auto; /* Allow scrolling within the container */
   flex: 1; /* Ensure it takes up remaining space below the header */
 }

@@ -14,6 +14,8 @@ import AdminDeletePage from './pages/AdminDeletePage';
 
 import './App.css';
 
+
+
 function App() {
   const [isEditorVisible, setEditorVisible] = useState(false);
   const [numColumns, setNumColumns] = useState(6); // Default number of columns

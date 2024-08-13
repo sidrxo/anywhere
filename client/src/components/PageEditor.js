@@ -27,7 +27,7 @@ const PageEditor = ({ isVisible, onClose, numColumns, setNumColumns }) => {
     <div className={`page-editor ${isVisible ? 'open' : ''}`}>
       <button className="close" onClick={onClose}></button>
       <div className="editor-section">
-        <h2>Columns</h2>
+        <h2>size</h2>
         <input
           type="range"
           min="3"

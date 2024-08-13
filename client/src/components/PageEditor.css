@@ -57,7 +57,7 @@
 }
 
 .editor-section {
-  margin-top: 2rem;
+  width: 40vh;
 }
 
 .editor-section h2 {
@@ -68,7 +68,6 @@
 
 .editor-section input[type="range"] {
   width: 100%;
-  margin-top: 0.5rem;
 }
 
 .editor-section p {

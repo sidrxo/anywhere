@@ -4,13 +4,12 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.9); /* White background with slight transparency */
+  background: rgba(255, 255, 255, 1); /* White background with slight transparency */
   display: flex;
   align-items: center;
   justify-content: center;
   transition: opacity 0.3s ease, transform 0.3s ease; /* Add transition for scale */
   opacity: 0;
-  visibility: hidden;
   transform: scale(0.9); /* Start with a slightly smaller scale */
   z-index: 1000;
 }
@@ -37,7 +36,7 @@
 
 
 .image-viewer-content.shifted {
-  transform: translateX(-5vh); /* Adjust value to shift content left */
+  transform: translateX(-5vw); /* Adjust value to shift content left */
 
 }
 .image-viewer-save-button, .image-viewer-info-button, .image-viewer-close-button {

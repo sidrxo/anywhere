@@ -10,7 +10,7 @@ const AdminDeletePage = () => {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/images');
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/images`);
         setImages(response.data);
       } catch (error) {
         console.error('Error fetching images:', error.message);
@@ -28,8 +28,9 @@ const AdminDeletePage = () => {
     try {
       await Promise.all(
         basket.map((identifier) =>
-          axios.delete(`http://localhost:5000/image/${identifier}`)
+          axios.delete(`${process.env.REACT_APP_API_BASE_URL}/image/${identifier}`)
         )
+    
       );
       setMessage('Selected images deleted successfully.');
       setImages(images.filter((image) => !basket.includes(image.identifier)));

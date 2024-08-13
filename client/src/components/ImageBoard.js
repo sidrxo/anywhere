@@ -9,7 +9,7 @@ const ImageBoard = ({ numColumns, imagePadding }) => {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/images');
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/images`);
         const fetchedImages = response.data;
         setImages(shuffleArray(fetchedImages));
       } catch (error) {
