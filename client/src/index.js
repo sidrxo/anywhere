@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client'; // Import createRoot instead of r
 import App from './App';
 import './styles.css';
 
+
 const container = document.getElementById('root');
 const root = createRoot(container); // Create a root.
 
