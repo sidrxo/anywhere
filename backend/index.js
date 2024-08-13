@@ -13,7 +13,8 @@ const IMG_API_KEY = process.env.IMG_API_KEY;
 const MONGODB_URI = process.env.MONGODB_URI;
 
 // MongoDB connection
-mongoose.connect(MONGODB_URI, {
+mongoose.connect(MONGODB_URI, { 
+  
 })
   .then(() => {
     console.log('Connected to MongoDB');
@@ -63,7 +64,7 @@ const generateUniqueIdentifier = async () => {
   return identifier;
 };
 
-// Route to handle image upload
+// Route to handle single image upload
 app.post('/upload', upload.single('image'), async (req, res) => {
   if (!req.file) return res.status(400).send('No file uploaded.');
 
@@ -107,6 +108,52 @@ app.post('/upload', upload.single('image'), async (req, res) => {
   }
 });
 
+// Route to handle multiple image uploads
+app.post('/upload-multiple', upload.array('images'), async (req, res) => {
+  if (!req.files || req.files.length === 0) return res.status(400).send('No files uploaded.');
+
+  try {
+    const imageUrls = [];
+    const identifiers = [];
+    for (const file of req.files) {
+      const form = new FormData();
+      form.append('image', file.buffer, { filename: file.originalname });
+      form.append('key', IMG_API_KEY);
+
+      const response = await axios.post(IMG_URL, form, {
+        headers: {
+          ...form.getHeaders(),
+        },
+      });
+
+      const { data } = response;
+
+      if (!data || !data.data || !data.data.url) {
+        throw new Error('ImgBB response does not contain expected data');
+      }
+
+      const imgURL = data.data.url;
+      const identifier = await generateUniqueIdentifier();
+
+      // Save each image to the database
+      const newImage = new Image({
+        identifier,
+        url: imgURL,
+        description: '', // You may update this based on additional data from the request
+      });
+
+      await newImage.save();
+      imageUrls.push({ identifier, url: imgURL });
+      identifiers.push(identifier);
+    }
+
+    res.status(200).json({ images: imageUrls });
+  } catch (error) {
+    console.error('Error during multiple image upload:', error.response ? error.response.data : error.message);
+    res.status(500).send('Error uploading images.');
+  }
+});
+
 // Route to fetch images
 app.get('/images', async (req, res) => {
   try {
@@ -129,6 +176,20 @@ app.get('/image/:identifier', async (req, res) => {
   } catch (error) {
     console.error('Error fetching image:', error.message);
     res.status(500).send('Error fetching image.');
+  }
+});
+
+// Route to delete an image by identifier
+app.delete('/image/:identifier', async (req, res) => {
+  try {
+    const result = await Image.deleteOne({ identifier: req.params.identifier });
+    if (result.deletedCount === 0) {
+      return res.status(404).send('Image not found.');
+    }
+    res.status(200).send('Image deleted successfully.');
+  } catch (error) {
+    console.error('Error deleting image:', error.message);
+    res.status(500).send('Error deleting image.');
   }
 });
 
