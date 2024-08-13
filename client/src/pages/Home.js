@@ -5,7 +5,6 @@ import './Home.css';
 
 const Home = ({ numColumns }) => {
   const [images, setImages] = useState([]);
-  const homeRef = useRef(null); // Reference to the home container
   const pinsRef = useRef(null); // Reference to the mypins-container
 
   const scrollThreshold = 40; // Number of pixels before the header starts moving
@@ -35,7 +34,7 @@ const Home = ({ numColumns }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop = Math.max(homeRef.current.scrollTop, pinsRef.current.scrollTop);
+      const scrollTop = Math.max(pinsRef.current.scrollTop);
       const header = document.querySelector('header');
 
       // Apply the threshold before moving the header
@@ -46,22 +45,19 @@ const Home = ({ numColumns }) => {
       }
     };
 
-    const homeElement = homeRef.current;
     const pinsElement = pinsRef.current;
 
     // Add scroll event listeners
-    homeElement.addEventListener('scroll', handleScroll);
     pinsElement.addEventListener('scroll', handleScroll);
 
     return () => {
       // Clean up event listeners
-      homeElement.removeEventListener('scroll', handleScroll);
       pinsElement.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
   return (
-    <div className="home" ref={homeRef}>
+    <div className="home">
       <div className="mypins-container" ref={pinsRef}>
         <ImageBoard images={images} numColumns={numColumns} />
       </div>
