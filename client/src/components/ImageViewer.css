@@ -1,0 +1,90 @@
+.image-viewer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.9); /* White background with slight transparency */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s ease, transform 0.3s ease; /* Add transition for scale */
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.9); /* Start with a slightly smaller scale */
+  z-index: 1000;
+}
+
+.image-viewer-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1); /* Scale to normal size when visible */
+}
+
+.image-viewer-menu {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  gap: 8px;
+  z-index: 1100; /* Ensure menu is above other elements */
+  transition: transform 0.3s ease; /* Smooth transition for shift */
+}
+
+.image-viewer-menu.shifted {
+  transform: translateX(-230px); /* Adjust value to shift content left */
+}
+
+.image-viewer-content.shifted {
+  transform: translateX(-5vh); /* Adjust value to shift content left */
+
+}
+.image-viewer-save-button, .image-viewer-info-button, .image-viewer-close-button {
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.3s ease, opacity 0.3s ease; /* Smooth transitions for background and opacity */
+  opacity: 0.8; /* Default opacity for buttons */
+  font-size: 16px;
+}
+
+.image-viewer-save-button:hover, .image-viewer-info-button:hover, .image-viewer-close-button:hover {
+  background: rgba(255, 255, 255, 1);
+  opacity: 1; /* Full opacity when hovered */
+}
+
+.image-viewer-content {
+  max-width: 80vw;
+  max-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease; /* Smooth transition for shift */
+
+}
+
+.image-viewer-content img {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+}
+
+.info-overlay {
+  position: fixed;
+  top: 0;
+  right: -400px; /* Start off-screen */
+  width: 200px;
+  height: 100%;
+  background: white;
+  box-shadow: -4px 0 8px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  transition: right 0.3s ease;
+  padding: 16px;
+  z-index: 1200; /* Ensure overlay is above all other elements */
+}
+
+.info-overlay.visible {
+  right: 0; /* Slide in to visible position */
+}

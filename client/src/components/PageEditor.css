@@ -1,0 +1,78 @@
+.page-editor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 99%;
+  background-color: #f9f9f9;
+  padding: 1rem;
+  z-index: 1000;
+  transform: translateY(-100%);
+  transition: transform 0.3s ease-in-out;
+  overflow: hidden; /* Prevent clicks outside the editor */
+}
+
+.page-editor.open {
+  transform: translateY(0);
+}
+
+.close {
+  position: absolute;
+  right: 40px;
+  width: 32px;
+  height: 32px;
+  opacity: 0.3;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  z-index: 1100; /* Ensure it is on top of other elements */
+}
+
+.close:hover {
+  /* Remove any hover effects */
+  opacity: 1; /* Maintain the same opacity */
+  background: transparent; /* Ensure no background color */
+  box-shadow: none; /* Ensure no box-shadow */
+}
+
+.close:before,
+.close:after {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  content: ' ';
+  height: 32px;
+  width: 2px;
+  background-color: #333;
+  transform: translate(-50%, -50%);
+}
+
+.close:before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.close:after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.editor-section {
+  margin-top: 2rem;
+}
+
+.editor-section h2 {
+  margin-bottom: 0.1rem;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.editor-section input[type="range"] {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.editor-section p {
+  margin-bottom: 0.1rem;
+  font-size: 1rem;
+  color: #555;
+}

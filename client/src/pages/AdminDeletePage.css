@@ -1,0 +1,94 @@
+.admin-delete-page {
+    padding: 20px;
+  }
+  
+  .image-list {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+  }
+  
+  .image-item {
+    position: relative;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .image-item img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .image-item button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+  
+  .image-item button:hover {
+    background-color: #ff1a1a;
+  }
+  
+  .basket {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .basket ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .basket ul li {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .basket-thumbnail {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+  
+  .basket ul li button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .basket ul li button:hover {
+    background-color: #ff1a1a;
+  }
+  
+  .confirm-delete {
+    display: block;
+    margin: 0 auto;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .confirm-delete:hover {
+    background-color: #ff1a1a;
+  }
+  

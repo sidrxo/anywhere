@@ -1,0 +1,20 @@
+.mypins-container {
+  margin-top: 60px; /* Match this to the height of the header */
+  padding-left: 1rem;
+  padding-bottom: 0;
+  padding-right: 1rem;
+  box-sizing: border-box;
+  height: calc(100vh - 60px); /* Adjust this based on header height */
+  overflow: hidden; /* Hides both vertical and horizontal scrollbars */
+  flex: 1; /* Ensure it takes up remaining space below the header */}
+
+
+
+.mypins-container::-webkit-scrollbar {
+  display: none; /* Hides the scrollbar for Webkit browsers */
+}
+
+.mypins-container {
+  -ms-overflow-style: none; /* Hides scrollbar for Internet Explorer and Edge */
+  scrollbar-width: none; /* Hides scrollbar for Firefox */
+}

@@ -1,0 +1,73 @@
+header {
+  display: flex;
+  width: 100%;
+  height: 20px; /* Adjust height as needed */
+  position: fixed; /* Fixes the header to the top of the page */
+  top: 20px ;
+  left: 0;
+  z-index: 1000; /* Ensure it sits above other content */
+
+}
+
+header a {
+  color: black; /* Default link color */
+  text-decoration: none; /* Removes underline from links */
+  opacity: 0.4; /* Default opacity */
+  transition: opacity 0.3s ease; /* Smooth transition for opacity changes */
+}
+
+header a:hover {
+  opacity: 1; /* Opacity when hovered */
+}
+
+.header-section {
+  flex: 1; /* Makes each section take up 1/3 of the header width */
+  display: flex;
+  align-items: center;
+}
+
+#section1 {
+  justify-content: flex-start; /* Aligns items to the left */
+  padding-left: 20px; /* Optional padding on the left */
+}
+
+#section1 h1 {
+  margin: 0;
+}
+
+#section2 {
+  justify-content: center; /* Centers items horizontally */
+}
+
+#section2 nav {
+  display: flex;
+  gap: 20px; /* Spacing between links */
+}
+
+#section2 a {
+  text-decoration: none; /* Remove underline */
+}
+
+#section2 a:hover {
+  text-decoration: underline; /* Underline on hover */
+}
+
+
+#section3 {
+  justify-content: center; /* Centers items horizontally */
+}
+
+#section3 nav {
+  display: flex;
+  gap: 20px; /* Spacing between links */
+
+}
+
+#section3 a {
+  text-decoration: none; /* Remove underline */
+}
+
+#section3 a:hover {
+  text-decoration: underline; /* Underline on hover */
+}
+
