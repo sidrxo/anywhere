@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './AdminDeletePage.css';
+import './page-styles/AdminDeletePage.css';
 
 const AdminDeletePage = () => {
   const [images, setImages] = useState([]);

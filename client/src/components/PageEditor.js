@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import './PageEditor.css';
+import './component-styles/PageEditor.css';
 
 const PageEditor = ({ isVisible, onClose, numColumns, setNumColumns }) => {
   const handleColumnsChange = (event) => {

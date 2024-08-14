@@ -3,16 +3,17 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import ImageViewer from './components/ImageViewer';
 import UploadPage from './pages/UploadPage';
-import SearchPage from './pages/Search';
-import ProfilePage from './pages/Profile';
+import SearchPage from './pages/SearchPage';
+import ProfilePage from './pages/ProfilePage';
 import PageEditor from './components/PageEditor';
-import MyPins from './pages/MyPins';
+import UploadsBoard from './components/UploadsBoard';
 import Home from './pages/Home'; // Import Home page
 import AdminMainPage from './pages/AdminMainPage';
 import AdminUploadPage from './pages/AdminUploadPage';
 import AdminDeletePage from './pages/AdminDeletePage';
 
 import './App.css';
+import MyUploadsPage from './pages/MyUploadsPage';
 
 
 
@@ -49,7 +50,7 @@ function App() {
             <Route path="/search" element={<SearchPage />} />
             <Route path="/upload" element={<UploadPage />} />
             <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/mypins" element={<MyPins />} />
+            <Route path="/myuploadspage" element={<MyUploadsPage />} />
             <Route path="/image/:identifier" element={<ImageViewer />} />
             <Route path="/admin" element={<AdminMainPage />} />
             <Route path="/admin/upload" element={<AdminUploadPage />} />

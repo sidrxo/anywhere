@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './AdminUploadPage.css';
+import './page-styles/AdminUploadPage.css';
 
 const AdminUploadPage = () => {
   const [images, setImages] = useState([]);

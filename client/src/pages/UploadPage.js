@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './UploadPage.css';
+import './page-styles/UploadPage.css';
 
 const UploadPage = () => {
   const [selectedFile, setSelectedFile] = useState(null);

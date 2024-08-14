@@ -1,0 +1,60 @@
+.search-page {
+  padding-top: 60px;
+  display: inside;
+  align-items: center; /* Center content horizontally */
+  justify-content: center; /* Center content vertically */
+  min-height: 100vh; /* Ensure it takes at least the full viewport height */
+  flex-direction: column;
+
+}
+
+.search-bar input {
+  width: 100%; /* Make the input field take the full width of its container */
+  padding: 15px; /* Add padding inside the input field */
+  font-size: 18px; /* Increase font size */
+  border: 1px solid #ccc; /* Add a border */
+  border-radius: 5px; /* Round corners */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Add subtle shadow for better visibility */
+  box-sizing: border-box; /* Ensure padding and border are included in the total width */
+}
+
+.search-bar {
+  width: 100%; /* Take full width of the parent container */
+  max-width: 600px; /* Set a maximum width for the input field */
+  margin-bottom: 20px; /* Add space below the input field */
+  display: flex;
+  justify-content: center; /* Center input horizontally */
+}
+.search-form {
+  display: flex;
+  gap: 10px;
+}
+
+.search-form input {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.search-form button {
+  padding: 10px;
+  font-size: 16px;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+}
+
+.search-results {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+h2{
+  font-size: 50px;
+  justify-content: center;
+  text-align: center;
+}

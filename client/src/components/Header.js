@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Header.css';
+import './component-styles/Header.css';
 
 const Header = ({ onEditClick }) => {
   return (
@@ -12,7 +12,7 @@ const Header = ({ onEditClick }) => {
         <nav>
           <Link to="/home">home</Link> {/* Navigate to Home */}
           <Link to="/search">search</Link>
-          <Link to="/MyPins">my pins</Link>
+          <Link to="/myuploadspage">my pins</Link>
         </nav>
       </div>
       <div className="header-section" id="section3">

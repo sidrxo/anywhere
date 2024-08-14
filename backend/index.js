@@ -193,6 +193,24 @@ app.delete('/image/:identifier', async (req, res) => {
   }
 });
 
+app.get('/search', async (req, res) => {
+  const { q } = req.query;
+  
+  if (!q) {
+    return res.status(400).send('Search query cannot be empty.');
+  }
+  
+  try {
+    const images = await Image.find({
+      description: { $regex: q, $options: 'i' } // Case-insensitive search
+    });
+    res.status(200).json(images);
+  } catch (error) {
+    console.error('Error searching images:', error.message);
+    res.status(500).send('Error searching images.');
+  }
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

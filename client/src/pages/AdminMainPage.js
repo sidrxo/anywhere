@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './AdminMainPage.css';
+import './page-styles/AdminMainPage.css';
 
 const AdminMainPage = () => {
   return (
