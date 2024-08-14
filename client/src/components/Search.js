@@ -10,7 +10,7 @@ const Search = () => {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/images');
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/images`);
         setImages(response.data);
         setFilteredImages(response.data); // Initially, show all images
       } catch (error) {
@@ -30,7 +30,6 @@ const Search = () => {
 
   return (
     <div className="search-page">
-      <h2>Search Images</h2>
       <div className="search-bar">
         <input
           type="text"

@@ -11,7 +11,7 @@ const SearchPage = () => {
   };
 
   return (
-    <div className="search-page-container">
+    <div className="search-container">
       <Search onSearchResults={handleSearchResults} />
       <SearchBoard images={searchResults} numColumns={4} /> {/* Adjust numColumns as needed */}
     </div>
