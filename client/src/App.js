@@ -6,14 +6,13 @@ import UploadPage from './pages/UploadPage';
 import SearchPage from './pages/SearchPage';
 import ProfilePage from './pages/ProfilePage';
 import PageEditor from './components/PageEditor';
-import UploadsBoard from './components/UploadsBoard';
 import Home from './pages/Home'; // Import Home page
 import AdminMainPage from './pages/AdminMainPage';
 import AdminUploadPage from './pages/AdminUploadPage';
 import AdminDeletePage from './pages/AdminDeletePage';
-
 import './App.css';
 import MyUploadsPage from './pages/MyUploadsPage';
+import Login from './pages/LoginPage';
 
 
 
@@ -55,6 +54,8 @@ function App() {
             <Route path="/admin" element={<AdminMainPage />} />
             <Route path="/admin/upload" element={<AdminUploadPage />} />
             <Route path="/admin/delete" element={<AdminDeletePage />} />       
+            <Route path="/login" element={<Login />} />       
+
            </Routes>
       </div>
     </Router>

@@ -9,15 +9,11 @@ const SearchBoard = ({ images = [], numColumns }) => {
 
   return (
     <div className="search-board" style={{ '--num-columns': numColumns }}>
-      {images.length === 0 ? (
-        <p>No images found.</p>
-      ) : (
-        images.map((image) => (
-          <div key={image._id} className="search-card">
-            <img src={image.url} alt={image.description || 'User Upload'} />
-          </div>
-        ))
-      )}
+      {images.map((image) => (
+        <div key={image._id} className="search-card">
+          <img src={image.url} alt={image.description || 'User Upload'} />
+        </div>
+      ))}
     </div>
   );
 };
