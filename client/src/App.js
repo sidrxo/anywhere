@@ -12,8 +12,7 @@ import AdminUploadPage from './pages/AdminUploadPage';
 import AdminDeletePage from './pages/AdminDeletePage';
 import './App.css';
 import MyUploadsPage from './pages/MyUploadsPage';
-import Login from './pages/LoginPage';
-
+import LoginPage from './pages/LoginPage';
 
 
 function App() {
@@ -54,8 +53,7 @@ function App() {
             <Route path="/admin" element={<AdminMainPage />} />
             <Route path="/admin/upload" element={<AdminUploadPage />} />
             <Route path="/admin/delete" element={<AdminDeletePage />} />       
-            <Route path="/login" element={<Login />} />       
-
+            <Route path="login" element={<LoginPage />} />       
            </Routes>
       </div>
     </Router>

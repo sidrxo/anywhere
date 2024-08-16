@@ -212,6 +212,9 @@ app.get('/search', async (req, res) => {
   }
 });
 
+
+
+
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
