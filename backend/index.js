@@ -8,7 +8,7 @@ const FormData = require('form-data');
 
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 const IMG_URL = 'https://api.imgbb.com/1/upload';
 const IMG_API_KEY = process.env.IMG_API_KEY;
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -38,6 +38,7 @@ const Image = mongoose.model('Image', imageSchema);
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 
 // Multer setup for file handling
 const storage = multer.memoryStorage();
@@ -211,7 +212,6 @@ app.get('/search', async (req, res) => {
     res.status(500).send('Error searching images.');
   }
 });
-
 
 
 
