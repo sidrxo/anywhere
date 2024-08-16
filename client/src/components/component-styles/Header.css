@@ -55,3 +55,15 @@ header a:hover {
   display: flex;
   gap: 20px;
 }
+
+@media (max-width: 768px) {
+  /* Hide the main header on mobile devices */
+  header {
+    display: none;
+  }
+
+  /* Show the mobile footer header on mobile devices */
+  .mobile-header {
+    display: flex;
+  }
+}

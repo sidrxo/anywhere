@@ -6,17 +6,16 @@ const axios = require('axios');
 const cors = require('cors');
 const FormData = require('form-data');
 
-
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 const IMG_URL = 'https://api.imgbb.com/1/upload';
 const IMG_API_KEY = process.env.IMG_API_KEY;
 const MONGODB_URI = process.env.MONGODB_URI;
+const VISION_API_KEY = process.env.AZURE_VISION_API_KEY;
+const VISION_ENDPOINT = process.env.AZURE_VISION_ENDPOINT;
 
 // MongoDB connection
-mongoose.connect(MONGODB_URI, { 
-  
-})
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('Connected to MongoDB');
   })
@@ -29,6 +28,7 @@ const imageSchema = new mongoose.Schema({
   identifier: { type: String, unique: true },
   url: String,
   description: String,
+  tags: [String], // Store the tags as an array of strings
 });
 
 // Model for the images
@@ -38,7 +38,6 @@ const Image = mongoose.model('Image', imageSchema);
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 
 // Multer setup for file handling
 const storage = multer.memoryStorage();
@@ -66,17 +65,34 @@ const generateUniqueIdentifier = async () => {
   return identifier;
 };
 
+// Function to fetch image tags using Azure Computer Vision API
+const fetchImageTags = async (imageUrl) => {
+  const requestBody = { url: imageUrl };
+
+  try {
+    const response = await axios.post(`${VISION_ENDPOINT}/vision/v3.2/analyze?visualFeatures=Tags`, requestBody, {
+      headers: {
+        'Ocp-Apim-Subscription-Key': VISION_API_KEY,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response.data; // The response should contain the tags
+  } catch (error) {
+    console.error('Error fetching image tags:', error.response ? error.response.data : error.message);
+    throw new Error('Failed to fetch image tags');
+  }
+};
+
 // Route to handle single image upload
 app.post('/upload', upload.single('image'), async (req, res) => {
   if (!req.file) return res.status(400).send('No file uploaded.');
 
   try {
-    // Create a new FormData instance to hold the image data
     const form = new FormData();
     form.append('image', req.file.buffer, { filename: req.file.originalname });
     form.append('key', IMG_API_KEY);
 
-    // Send the image data as form data to ImgBB
     const response = await axios.post(IMG_URL, form, {
       headers: {
         ...form.getHeaders(),
@@ -90,15 +106,17 @@ app.post('/upload', upload.single('image'), async (req, res) => {
     }
 
     const imgURL = data.data.url;
-
-    // Generate a unique identifier for the image
     const identifier = await generateUniqueIdentifier();
 
-    // Create and save the new image document in MongoDB
+    const visionResponse = await analyzeImage(imgURL);
+    const tags = visionResponse.tags.map(tag => tag.name);
+
     const newImage = new Image({
       identifier,
       url: imgURL,
       description: req.body.description || '',
+      tags, // Save the tags array in the MongoDB document
+      uploadDate: new Date() // Set uploadDate to the current date
     });
 
     await newImage.save();
@@ -110,6 +128,7 @@ app.post('/upload', upload.single('image'), async (req, res) => {
   }
 });
 
+
 // Route to handle multiple image uploads
 app.post('/upload-multiple', upload.array('images'), async (req, res) => {
   if (!req.files || req.files.length === 0) return res.status(400).send('No files uploaded.');
@@ -117,6 +136,7 @@ app.post('/upload-multiple', upload.array('images'), async (req, res) => {
   try {
     const imageUrls = [];
     const identifiers = [];
+
     for (const file of req.files) {
       const form = new FormData();
       form.append('image', file.buffer, { filename: file.originalname });
@@ -129,7 +149,6 @@ app.post('/upload-multiple', upload.array('images'), async (req, res) => {
       });
 
       const { data } = response;
-
       if (!data || !data.data || !data.data.url) {
         throw new Error('ImgBB response does not contain expected data');
       }
@@ -137,15 +156,19 @@ app.post('/upload-multiple', upload.array('images'), async (req, res) => {
       const imgURL = data.data.url;
       const identifier = await generateUniqueIdentifier();
 
-      // Save each image to the database
+      // Get tags from Computer Vision API
+      const visionResponse = await fetchImageTags(imgURL);
+      const tags = visionResponse.tags.map(tag => tag.name);
+
       const newImage = new Image({
         identifier,
         url: imgURL,
-        description: '', // You may update this based on additional data from the request
+        description: '', 
+        tags, // Save the tags array in the MongoDB document
       });
 
       await newImage.save();
-      imageUrls.push({ identifier, url: imgURL });
+      imageUrls.push({ identifier, url: imgURL, tags });
       identifiers.push(identifier);
     }
 
@@ -156,7 +179,7 @@ app.post('/upload-multiple', upload.array('images'), async (req, res) => {
   }
 });
 
-// Route to fetch images
+// Route to fetch all images
 app.get('/images', async (req, res) => {
   try {
     const images = await Image.find();
@@ -195,16 +218,17 @@ app.delete('/image/:identifier', async (req, res) => {
   }
 });
 
+// Route to search images by description
 app.get('/search', async (req, res) => {
   const { q } = req.query;
-  
+
   if (!q) {
     return res.status(400).send('Search query cannot be empty.');
   }
-  
+
   try {
     const images = await Image.find({
-      description: { $regex: q, $options: 'i' } // Case-insensitive search
+      description: { $regex: q, $options: 'i' }, // Case-insensitive search
     });
     res.status(200).json(images);
   } catch (error) {
@@ -213,11 +237,7 @@ app.get('/search', async (req, res) => {
   }
 });
 
-
-
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-
-

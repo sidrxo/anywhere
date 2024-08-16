@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './/component-styles/Search.css'; // Import the CSS file for Search
+import './component-styles/Search.css'; // Import the CSS file for Search
 
 const Search = () => {
   const [images, setImages] = useState([]);
@@ -22,9 +22,14 @@ const Search = () => {
   }, []);
 
   useEffect(() => {
-    const results = images.filter(image =>
-      image.description.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const results = images.filter(image => {
+      // Check if the search query matches the description or any of the tags
+      const matchesDescription = image.description.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesTags = image.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+      
+      return matchesDescription || matchesTags;
+    });
+
     setFilteredImages(results);
   }, [searchQuery, images]);
 
@@ -33,7 +38,7 @@ const Search = () => {
       <div className="search-bar">
         <input
           type="text"
-          placeholder="Search by description..."
+          placeholder="Search by description or tags..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />

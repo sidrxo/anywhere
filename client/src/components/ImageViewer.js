@@ -79,6 +79,17 @@ const ImageViewer = () => {
         <p><strong>Identifier:</strong> {identifier}</p>
         <p><strong>URL:</strong> {image?.url}</p>
         <p><strong>Description:</strong> {image?.description || 'No description available'}</p>
+        {/* Add tags display */}
+        {image?.tags && image.tags.length > 0 && (
+          <div>
+            <p><strong>Tags:</strong></p>
+            <ul>
+              {image.tags.map((tag, index) => (
+                <li key={index}>{tag}</li>
+              ))}
+            </ul>
+          </div>
+        )}
         <p><strong>Placeholder Metadata:</strong> Example metadata goes here.</p>
       </div>
     </div>
