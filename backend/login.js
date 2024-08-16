@@ -5,8 +5,8 @@ const cookieSession = require('cookie-session');
 const app = express();
 
 // Replace these with your actual values from the Google Cloud Console
-const GOOGLE_CLIENT_ID = '542621242409-kjbm9dama0k1diofo2mjiefpsimthjtn.apps.googleusercontent.com';
-const GOOGLE_CLIENT_SECRET = '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';
+const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.REACT_APP_GOOGLE_CLIENT_SECRET;
 
 // User database or in-memory store (replace with your own user management system)
 const users = [];
