@@ -22,3 +22,10 @@
   overflow: auto; /* Allow scrolling within the container */
   flex: 1; /* Ensure it takes up remaining space below the header */
 }
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+  :root {
+    --num-columns: 3; /* Set columns to 3 on mobile devices */
+  }
+}

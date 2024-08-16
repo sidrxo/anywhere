@@ -39,3 +39,14 @@
     opacity: 1;
   }
 }
+
+/* Media query for mobile devices */
+@media (max-width: 768px) 
+  {
+
+    .home-container {
+padding-top: 1vh;
+
+    }
+}
+
