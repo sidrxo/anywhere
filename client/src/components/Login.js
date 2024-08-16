@@ -1,12 +1,15 @@
 // Login.js
 import React from 'react';
 import { GoogleLogin } from '@react-oauth/google';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+    const navigate = useNavigate(); // Hook to navigate programmatically
+
     const handleSuccess = (response) => {
-        // Handle successful login, e.g., redirect or fetch user info
         console.log('Login Successful:', response);
-        window.location.href = '/auth/google'; // Redirect to your backend for further handling
+        // Redirect to your profile page
+        navigate('/profile');
     };
 
     const handleFailure = (error) => {
