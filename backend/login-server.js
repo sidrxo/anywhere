@@ -1,14 +1,28 @@
-// login-server.js
 const express = require('express');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const session = require('express-session');
+const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
 dotenv.config();
 
 const app = express();
 const PORT = 6000;
+
+// MongoDB connection
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('MongoDB connected'))
+    .catch(err => console.error('MongoDB connection error:', err));
+
+// Define User schema and model
+const userSchema = new mongoose.Schema({
+    googleId: String,
+    displayName: String,
+    email: String
+});
+
+const User = mongoose.model('User', userSchema);
 
 // Middleware
 app.use(express.json());
@@ -26,17 +40,39 @@ passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: '/auth/google/callback'
-}, (accessToken, refreshToken, profile, done) => {
-    // Here you can save the profile information in your database if needed
-    return done(null, profile);
+}, async (accessToken, refreshToken, profile, done) => {
+    try {
+        // Check if user already exists in the database
+        let user = await User.findOne({ googleId: profile.id });
+
+        if (!user) {
+            // Create a new user if not exists
+            user = new User({
+                googleId: profile.id,
+                displayName: profile.displayName,
+                email: profile.emails[0].value
+            });
+            await user.save();
+        }
+
+        // Pass the user object to the done function
+        return done(null, user);
+    } catch (err) {
+        return done(err, null);
+    }
 }));
 
 passport.serializeUser((user, done) => {
-    done(null, user);
+    done(null, user.id);
 });
 
-passport.deserializeUser((obj, done) => {
-    done(null, obj);
+passport.deserializeUser(async (id, done) => {
+    try {
+        const user = await User.findById(id);
+        done(null, user);
+    } catch (err) {
+        done(err, null);
+    }
 });
 
 // Routes
