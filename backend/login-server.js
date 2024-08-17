@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
     email: String
 });
 
-constUser = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
 
 // Middleware
 app.use(express.json());
@@ -46,7 +46,7 @@ passport.use(new GoogleStrategy({
 
         if (!user) {
             // Create a new user if not exists
-            user = newUser({
+            user = new User({
                 googleId: profile.id,
                 displayName: profile.displayName,
                 email: profile.emails[0].value
@@ -66,7 +66,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
     try {
-        const user = awaitUser.findById(id);
+        const user = await User.findById(id);
         done(null, user);
     } catch (err) {
         done(err, null);
