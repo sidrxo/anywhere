@@ -42,7 +42,8 @@ passport.use(new GoogleStrategy({
     callbackURL: '/auth/google/callback'
 }, async (accessToken, refreshToken, profile, done) => {
     try {
-        // Check if user already exists in the databaselet user = awaitUser.findOne({ googleId: profile.id });
+        // Check if user already exists in the database
+        let user = awaitUser.findOne({ googleId: profile.id });
 
         if (!user) {
             // Create a new user if not exists
@@ -54,7 +55,8 @@ passport.use(new GoogleStrategy({
             await user.save();
         }
 
-        // Pass the user object to the done functionreturndone(null, user);
+        // Pass the user object to the done function
+        returndone(null, user);
     } catch (err) {
         returndone(err, null);
     }
