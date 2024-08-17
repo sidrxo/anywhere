@@ -12,8 +12,8 @@ const PORT = 7000;
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI, {})
-    .then(() => console.log('MongoDB connected'))
-    .catch(err => console.error('MongoDB connection error:', err));
+    .then(() =>console.log('MongoDB connected'))
+    .catch(err =>console.error('MongoDB connection error:', err));
 
 // Define User schema and model
 const userSchema = new mongoose.Schema({
@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
     email: String
 });
 
-const User = mongoose.model('User', userSchema);
+constUser = mongoose.model('User', userSchema);
 
 // Middleware
 app.use(express.json());
@@ -42,12 +42,11 @@ passport.use(new GoogleStrategy({
     callbackURL: '/auth/google/callback'
 }, async (accessToken, refreshToken, profile, done) => {
     try {
-        // Check if user already exists in the database
-        let user = await User.findOne({ googleId: profile.id });
+        // Check if user already exists in the databaselet user = awaitUser.findOne({ googleId: profile.id });
 
         if (!user) {
             // Create a new user if not exists
-            user = new User({
+            user = newUser({
                 googleId: profile.id,
                 displayName: profile.displayName,
                 email: profile.emails[0].value
@@ -55,10 +54,9 @@ passport.use(new GoogleStrategy({
             await user.save();
         }
 
-        // Pass the user object to the done function
-        return done(null, user);
+        // Pass the user object to the done functionreturndone(null, user);
     } catch (err) {
-        return done(err, null);
+        returndone(err, null);
     }
 }));
 
@@ -68,7 +66,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
     try {
-        const user = await User.findById(id);
+        const user = awaitUser.findById(id);
         done(null, user);
     } catch (err) {
         done(err, null);
