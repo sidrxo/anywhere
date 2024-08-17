@@ -4,7 +4,6 @@ import Header from './components/Header';
 import ImageViewer from './components/ImageViewer';
 import UploadPage from './pages/UploadPage';
 import SearchPage from './pages/SearchPage';
-import ProfilePage from './pages/ProfilePage';
 import PageEditor from './components/PageEditor';
 import Home from './pages/Home'; // Import Home page
 import AdminMainPage from './pages/AdminMainPage';
@@ -13,6 +12,7 @@ import AdminDeletePage from './pages/AdminDeletePage';
 import './App.css';
 import MyUploadsPage from './pages/MyUploadsPage';
 import LoginPage from './pages/LoginPage';
+import ProfilePage from './pages/ProfilePage';
 
 
 function App() {

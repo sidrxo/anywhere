@@ -1,30 +1,28 @@
-// Login.js
+// src/components/Login.js
 import React from 'react';
-import { GoogleLogin } from '@react-oauth/google';
-import { useNavigate } from 'react-router-dom';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 
 const Login = () => {
-    const navigate = useNavigate(); // Hook to navigate programmatically
+  const onSuccess = (response) => {
+    console.log(response);
+    // You can send the response to your backend to validate and create a session
+  };
 
-    const handleSuccess = (response) => {
-        console.log('Login Successful:', response);
-        // Redirect to your profile page
-        navigate('/profile');
-    };
+  const onFailure = (error) => {
+    console.error(error);
+  };
 
-    const handleFailure = (error) => {
-        console.error('Login failed:', error);
-    };
-
-    return (
-        <div className="login-container">
-            <h2>Login with Google</h2>
-            <GoogleLogin
-                onSuccess={handleSuccess}
-                onFailure={handleFailure}
-            />
-        </div>
-    );
+  return (
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+      <div className="login-container">
+        <h2>Login with Google</h2>
+        <GoogleLogin
+          onSuccess={onSuccess}
+          onFailure={onFailure}
+        />
+      </div>
+    </GoogleOAuthProvider>
+  );
 };
 
 export default Login;
