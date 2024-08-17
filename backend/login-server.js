@@ -39,7 +39,7 @@ app.use(passport.session());
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: 'https://anywhere-1-1ud7.onrender.com/auth/google/callback'
+    callbackURL: `${process.env.REACT_APP_API2_BASE_URL}/auth/google/callback`
 }, async (accessToken, refreshToken, profile, done) => {
     try {
         console.log('GoogleStrategy callback invoked');
