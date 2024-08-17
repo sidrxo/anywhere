@@ -2,8 +2,8 @@
 require('dotenv').config();
 const axios = require('axios');
 
-const VISION_API_ENDPOINT = process.env.VISION_API_ENDPOINT;
-const VISION_API_KEY = process.env.VISION_API_KEY;
+const VISION_API_ENDPOINT = process.env.AZURE_VISION_ENDPOINT;
+const VISION_API_KEY = process.env.AZURE_VISION_API_KEY;
 
 const analyzeImage = async (imageUrl) => {
   try {

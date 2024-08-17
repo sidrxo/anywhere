@@ -13,11 +13,9 @@ const IMG_API_KEY = process.env.IMG_API_KEY;
 const MONGODB_URI = process.env.MONGODB_URI;
 const VISION_API_KEY = process.env.AZURE_VISION_API_KEY;
 const VISION_ENDPOINT = process.env.AZURE_VISION_ENDPOINT;
-const { analyzeImage } = require('./visionService'); // Import analyzeImage functionconst app = express();
-
 
 // MongoDB connection
-mongoose.connect(MONGODB_URI, {})
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('Connected to MongoDB');
   })
@@ -86,6 +84,7 @@ const fetchImageTags = async (imageUrl) => {
   }
 };
 
+// Route to handle single image upload
 app.post('/upload', upload.single('image'), async (req, res) => {
   if (!req.file) return res.status(400).send('No file uploaded.');
 
@@ -103,32 +102,31 @@ app.post('/upload', upload.single('image'), async (req, res) => {
     const { data } = response;
 
     if (!data || !data.data || !data.data.url) {
-      thrownewError('ImgBB response does not contain expected data');
+      throw new Error('ImgBB response does not contain expected data');
     }
 
     const imgURL = data.data.url;
     const identifier = await generateUniqueIdentifier();
 
-    // The analyzeImage function returns an array of tags, so we should directly map over it
-    const tags = await analyzeImage(imgURL);
+    const visionResponse = await analyzeImage(imgURL);
+    const tags = visionResponse.tags.map(tag => tag.name);
 
     const newImage = new Image({
       identifier,
       url: imgURL,
       description: req.body.description || '',
-      tags: tags.map(tag => tag.name), // Extract the tag names
-      uploadDate: new Date()
+      tags, // Save the tags array in the MongoDB document
+      uploadDate: new Date() // Set uploadDate to the current date
     });
 
     await newImage.save();
 
     res.status(200).json({ identifier, url: imgURL });
   } catch (error) {
-    console.error('Error during image upload:', error.message);
+    console.error('Error during image upload:', error.response ? error.response.data : error.message);
     res.status(500).send('Error uploading image.');
   }
 });
-
 
 
 // Route to handle multiple image uploads
