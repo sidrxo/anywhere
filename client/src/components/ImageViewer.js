@@ -90,7 +90,8 @@ const ImageViewer = () => {
             </ul>
           </div>
         )}
-        <p><strong>Placeholder Metadata:</strong> Example metadata goes here.</p>
+        {/* Add upload date display */}
+        <p><strong>Upload Date:</strong> {image?.uploadDate ? new Date(image.uploadDate).toLocaleDateString() : 'No date available'}</p>
       </div>
     </div>
   );
