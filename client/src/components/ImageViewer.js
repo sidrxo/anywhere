@@ -6,8 +6,8 @@ import './component-styles/ImageViewer.css';
 const ImageViewer = () => {
   const { identifier } = useParams();
   const [image, setImage] = useState(null);
-  const [infoVisible, setInfoVisible] = useState(false); // State to manage info panel visibility
-  const [menuShifted, setMenuShifted] = useState(false); // State to manage menu shifting
+  const [infoVisible, setInfoVisible] = useState(false);
+  const [menuShifted, setMenuShifted] = useState(false);
 
   const navigate = useNavigate();
 
@@ -18,54 +18,50 @@ const ImageViewer = () => {
         setImage(response.data);
       } catch (error) {
         console.error('Error fetching image:', error);
-        // Optionally handle the error or redirect
       }
     };
 
     fetchImage();
   }, [identifier]);
 
-  const handleClose = () => {
-    navigate(-1); // Navigate back to the previous page
-  };
-
-  const handleInfo = (e) => {
-    e.stopPropagation(); // Prevent the overlay from closing
-    setInfoVisible(!infoVisible); // Toggle info panel visibility
-    setMenuShifted(!menuShifted); // Shift menu when info is toggled
-  };
-
-  const handleSave = (e) => {
-    e.stopPropagation(); // Prevent the overlay from closing
-    // Implement save functionality here
-  };
-
-  const handleButtonClick = (e) => {
-    e.stopPropagation(); // Prevent the overlay from closing
-  };
-
-  const handleKeyDown = (event) => {
-    if (event.key === 'Escape') {
-      handleClose();
-    }
-  };
-
   useEffect(() => {
-    // Add event listener for Escape key
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        navigate(-1);
+      }
+    };
+
     window.addEventListener('keydown', handleKeyDown);
 
-    // Cleanup event listener on component unmount
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [navigate]);
+
+  const handleClose = () => {
+    navigate(-1);
+  };
+
+  const handleInfo = (e) => {
+    e.stopPropagation();
+    setInfoVisible(!infoVisible);
+    setMenuShifted(!menuShifted);
+  };
+
+  const handleSave = (e) => {
+    e.stopPropagation();
+  };
+
+  const handleButtonClick = (e) => {
+    e.stopPropagation();
+  };
 
   return (
     <div className={`image-viewer-overlay ${image ? 'visible' : ''}`} onClick={handleButtonClick}>
       <div className={`image-viewer-menu ${menuShifted ? 'shifted' : ''}`} onClick={handleButtonClick}>
-          <button className="image-viewer-save-button" onClick={handleSave}>save</button>
-          <button className="image-viewer-info-button" onClick={handleInfo}>info</button>
-          <button className="image-viewer-close-button" onClick={handleClose}>close</button>
+        <button className="image-viewer-save-button" onClick={handleSave}>save</button>
+        <button className="image-viewer-info-button" onClick={handleInfo}>info</button>
+        <button className="image-viewer-close-button" onClick={handleClose}>close</button>
       </div>
       <div className={`image-viewer-content ${infoVisible ? 'shifted' : ''}`} onClick={(e) => e.stopPropagation()}>
         {image ? (
@@ -79,19 +75,7 @@ const ImageViewer = () => {
         <p><strong>Identifier:</strong> {identifier}</p>
         <p><strong>URL:</strong> {image?.url}</p>
         <p><strong>Description:</strong> {image?.description || 'No description available'}</p>
-        {/* Add tags display */}
-        {image?.tags && image.tags.length > 0 && (
-          <div>
-            <p><strong>Tags:</strong></p>
-            <ul>
-              {image.tags.map((tag, index) => (
-                <li key={index}>{tag}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-        {/* Add upload date display */}
-        <p><strong>Upload Date:</strong> {image?.uploadDate ? new Date(image.uploadDate).toLocaleDateString() : 'No date available'}</p>
+        <p><strong>Upload Date:</strong> {image?.uploadDate ? new Date(image.uploadDate).toLocaleDateString() : 'No date available'}</p> 
       </div>
     </div>
   );

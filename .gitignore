@@ -1,4 +1,8 @@
 backend/.env
 node_modules
 backend/identifierupdate.js
+backend/dateupdate.js
+backend/tagsupdate.js
+
+
 client/.env

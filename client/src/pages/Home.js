@@ -5,9 +5,12 @@ import './page-styles/Home.css';
 
 const Home = ({ numColumns }) => {
   const [images, setImages] = useState([]);
+  const [prevScrollTop, setPrevScrollTop] = useState(0); // Track previous scroll position
+  const [hideHeader, setHideHeader] = useState(false); // Track if header should be hidden
   const pinsRef = useRef(null); // Reference to the mypins-container
 
-  const scrollThreshold = 40; // Number of pixels before the header starts moving
+  const scrollThreshold = 10; // Threshold to start hiding the header
+  const hideThreshold = 0; // Extra threshold for scrolling down
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -25,15 +28,20 @@ const Home = ({ numColumns }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop = Math.max(pinsRef.current.scrollTop);
+      const currentScrollTop = pinsRef.current.scrollTop;
       const header = document.querySelector('header');
 
-      // Apply the threshold before moving the header
-      if (scrollTop > scrollThreshold) {
-        header.style.transform = `translateY(-${scrollTop - scrollThreshold}px)`;
-      } else {
-        header.style.transform = 'translateY(0)'; // Keep the header in place until threshold is reached
+      // Only hide header after scrolling down past the hideThreshold
+      if (currentScrollTop > prevScrollTop && currentScrollTop > scrollThreshold + hideThreshold) {
+        setHideHeader(true);
+      } else if (currentScrollTop < prevScrollTop) {
+        setHideHeader(false);
       }
+
+      // Apply the transform based on hideHeader state
+      header.style.transform = hideHeader ? `translateY(-100%)` : `translateY(0)`;
+
+      setPrevScrollTop(currentScrollTop); // Update previous scroll position
     };
 
     const pinsElement = pinsRef.current;
@@ -43,8 +51,9 @@ const Home = ({ numColumns }) => {
 
     return () => {
       // Clean up event listeners
+      pinsElement.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [prevScrollTop, hideHeader]);
 
   return (
     <div className="home">

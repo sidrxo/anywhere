@@ -21,7 +21,7 @@ const Header = ({ onEditClick }) => {
           <nav>
             <a href="#edit" onClick={(e) => { e.preventDefault(); onEditClick(); }}>edit</a> {/* Link to trigger edit */}
             <Link to="/upload">add</Link> {/* Link to Upload Page */}
-            <Link to="/login">profile</Link>
+            <Link to="/profile">profile</Link>
           </nav>
         </div>
       </header>

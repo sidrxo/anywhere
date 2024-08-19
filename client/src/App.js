@@ -12,7 +12,10 @@ import AdminDeletePage from './pages/AdminDeletePage';
 import './App.css';
 import MyUploadsPage from './pages/MyUploadsPage';
 import LoginPage from './pages/LoginPage';
-import ProfilePage from './pages/ProfilePage';
+import Profile from './components/Profile.js';
+import LandingPage from './pages/LandingPage.js';
+
+
 
 
 function App() {
@@ -47,13 +50,14 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/upload" element={<UploadPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
             <Route path="/myuploadspage" element={<MyUploadsPage />} />
             <Route path="/image/:identifier" element={<ImageViewer />} />
             <Route path="/admin" element={<AdminMainPage />} />
             <Route path="/admin/upload" element={<AdminUploadPage />} />
             <Route path="/admin/delete" element={<AdminDeletePage />} />       
-            <Route path="login" element={<LoginPage />} />       
+            <Route path="login" element={<LoginPage />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="landing" element={<LandingPage />} />       
            </Routes>
       </div>
     </Router>

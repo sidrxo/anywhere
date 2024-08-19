@@ -1,113 +1,73 @@
 const express = require('express');
-const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const session = require('express-session');
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+const User = require('./models/User'); // Ensure you have a User model defined
+const cors = require('cors'); // Import CORS middleware
 
-dotenv.config();
 
 const app = express();
-const PORT = 7000;
-
-// MongoDB connection
-mongoose.connect(process.env.MONGODB_URI, {})
-    .then(() => console.log('MongoDB connected'))
-    .catch(err => console.error('MongoDB connection error:', err));
-
-// Define User schema and model
-const userSchema = new mongoose.Schema({
-    googleId: String,
-    displayName: String,
-    email: String
-});
-
-const User = mongoose.model('User', userSchema);
-
-// Middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(session({
-    secret: 'your-session-secret',
-    resave: false,
-    saveUninitialized: true,
-}));
-app.use(passport.initialize());
-app.use(passport.session());
 
-// Passport configuration
-passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: `${process.env.REACT_APP_API2_BASE_URL}/auth/google/callback`
-}, async (accessToken, refreshToken, profile, done) => {
-    try {
-        console.log('GoogleStrategy callback invoked');
-        // Check if user already exists in the database
-        let user = await User.findOne({ googleId: profile.id });
-        console.log('User found:', user);
-
-        if (!user) {
-            // Create a new user if not exists
-            console.log('Creating new user');
-            user = new User({
-                googleId: profile.id,
-                displayName: profile.displayName,
-                email: profile.emails[0].value
-            });
-            await user.save();
-            console.log('New user saved:', user);
-        }
-
-        // Pass the user object to the done function
-        return done(null, user);
-    } catch (err) {
-        console.error('Error in GoogleStrategy callback:', err);
-        return done(err, null);
-    }
+app.use(cors({
+  origin: 'http://localhost:5001', // Allow requests from this origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these methods
+  credentials: true // Allow cookies to be sent with requests
 }));
 
-passport.serializeUser((user, done) => {
-    done(null, user.id);
-});
 
-passport.deserializeUser(async (id, done) => {
-    try {
-        const user = await User.findById(id);
-        done(null, user);
-    } catch (err) {
-        done(err, null);
+app.post('/users', async (req, res) => {
+  try {
+    const { googleId, name, email, profilePicture, uniqueId } = req.body;
+    
+    // Check if user already exists
+    let user = await User.findOne({ googleId });
+    if (user) {
+      // Update user details if already exists
+      user.name = name;
+      user.email = email;
+      user.profilePicture = profilePicture;
+      user.uniqueId = uniqueId; // Update uniqueId if necessary
+      user = await user.save();
+    } else {
+      // Create new user if not exists
+      user = new User({
+        googleId,
+        name,
+        email,
+        profilePicture,
+        uniqueId,
+      });
+      await user.save();
     }
+    res.status(200).json({ message: 'User data saved successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Error saving user data' });
+  }
 });
 
-// Routes
-app.get('/auth/google',
-    passport.authenticate('google', { scope: ['profile', 'email'] })
-);
+app.get('/users', async (req, res) => {
+  const { email } = req.query;
 
-app.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: '/' }),
-    (req, res) => {
-        console.log('Successful authentication, redirecting to profile');
-        res.redirect('/profile');
+  if (!email) {
+    return res.status(400).json({ error: 'Email query parameter is required' });
+  }
+
+  try {
+    const user = await User.findOne({ email });
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.status(404).json({ error: 'User not found' });
     }
-);
-
-app.get('/logout', (req, res) => {
-    req.logout((err) => {
-        if (err) { return next(err); }
-        res.redirect('/');
-    });
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching user data' });
+  }
 });
 
-app.get('/profile', (req, res) => {
-    if (!req.isAuthenticated()) {
-        return res.redirect('/');
-    }
-    console.log('Profile route accessed, user:', req.user);
-    res.json(req.user); // Send user profile information as JSON
+// Connect to MongoDB and start server
+mongoose.connect('mongodb+srv://sidrxo:Merlin2911@anywhere.omaoaeq.mongodb.net/?retryWrites=true&w=majority&appName=ANYWHERE', {
+
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(7000, () => {
+  console.log('Server is running on port 7000');
 });

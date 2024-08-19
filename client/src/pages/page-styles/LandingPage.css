@@ -1,0 +1,22 @@
+
+.landing-page {
+    height: 100vh;
+    width: 100vw;
+    background-color: #000; /* Black background */
+    display: flex;
+    align-items: flex-start; /* Align to the top */
+    justify-content: flex-start; /* Align to the left */
+    padding: 20px; /* Optional padding */
+  }
+  
+  .slogan-container {
+    margin-top: 20px; /* Slightly down from the top */
+  }
+  
+  .slogan {
+    font-size: 48px; /* Large font size */
+    color: #fff; /* White text color */
+    font-weight: 700;
+    line-height: 1.5; /* Line height for the multi-line slogan */
+  }
+  

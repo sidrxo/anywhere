@@ -1,35 +1,15 @@
-// src/pages/ProfilePage.js
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+// src/ProfilePage.js
 
-const ProfilePage = () => {
-  const [user, setUser] = useState(null);
-  const navigate = useNavigate();
+import React from 'react';
+import Profile from './Profile';
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get('/api/user');
-        setUser(response.data);
-      } catch (error) {
-        console.error('Error fetching user:', error);
-        navigate('/login'); // Redirect to login if not authenticated
-      }
-    };
-
-    fetchUser();
-  }, [navigate]);
-
-  if (!user) return <p>Loading...</p>;
-
+function ProfilePage() {
   return (
     <div className="profile-page">
-      <h2>Welcome, {user.displayName}</h2>
-      <p>Email: {user.email}</p>
-      <a href="/logout">Logout</a>
+      <h1>Profile Page</h1>
+      <Profile />
     </div>
   );
-};
+}
 
 export default ProfilePage;
