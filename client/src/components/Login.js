@@ -2,6 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './component-styles/Login.css';
 
 function Login() {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ function Login() {
     // Render the Google Sign-In button after the component mounts
     if (window.google) {
       window.google.accounts.id.initialize({
-        client_id: '542621242409-kjbm9dama0k1diofo2mjiefpsimthjtn.apps.googleusercontent.com',
+        client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID, // Use environment variable
         callback: handleCredentialResponse,
       });
       window.google.accounts.id.renderButton(
@@ -28,9 +29,9 @@ function Login() {
     const userObject = parseJwt(response.credential);
     console.log('Decoded user info:', userObject);
 
-    // Save the user's email in a cookie
-    if (userObject && userObject.email) {
-      document.cookie = `user_email=${userObject.email}; path=/; max-age=3600`; // Cookie valid for 1 hour
+    // Save the user's unique identifier in a cookie
+    if (userObject && userObject.sub) {
+      document.cookie = `user_id=${userObject.sub}; path=/; max-age=3600`; // Cookie valid for 1 hour
     }
 
     // Send user data to the backend to store in MongoDB
@@ -51,7 +52,7 @@ function Login() {
 
       if (response.ok) {
         console.log('User data stored successfully');
-        // Redirect to profile page after successful login
+        // Navigate to profile page upon successful login
         navigate('/profile');
       } else {
         console.error('Failed to store user data');
@@ -77,8 +78,8 @@ function Login() {
   };
 
   return (
-    <div>
-      <h2>Google Sign-In Button Example</h2>
+    <div className="login-container">
+      <h2>Google Sign-In</h2>
       <div id="buttonDiv"></div>
     </div>
   );

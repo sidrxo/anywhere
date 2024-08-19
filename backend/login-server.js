@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const User = require('./models/User'); // Ensure you have a User model defined
 const cors = require('cors'); // Import CORS middleware
+const { v4: uuidv4 } = require('uuid'); // Add this line
 
 
 const app = express();
@@ -17,6 +18,8 @@ app.use(cors({
 app.post('/users', async (req, res) => {
   try {
     const { googleId, name, email, profilePicture, uniqueId } = req.body;
+    const uniqueIdentifier = uuidv4(); // Generate unique identifier
+
     
     // Check if user already exists
     let user = await User.findOne({ googleId });
@@ -31,6 +34,7 @@ app.post('/users', async (req, res) => {
       // Create new user if not exists
       user = new User({
         googleId,
+        uniqueIdentifier, // Add unique identifier
         name,
         email,
         profilePicture,
@@ -44,24 +48,22 @@ app.post('/users', async (req, res) => {
   }
 });
 
+// Route to get user data by unique identifier
 app.get('/users', async (req, res) => {
-  const { email } = req.query;
-
-  if (!email) {
-    return res.status(400).json({ error: 'Email query parameter is required' });
-  }
+  const { uniqueIdentifier } = req.query;
 
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ uniqueIdentifier });
     if (user) {
-      res.status(200).json(user);
+      res.json(user);
     } else {
-      res.status(404).json({ error: 'User not found' });
+      res.status(404).json({ message: 'User not found' });
     }
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching user data' });
+    res.status(500).json({ message: 'Failed to fetch user data' });
   }
 });
+
 
 // Connect to MongoDB and start server
 mongoose.connect('mongodb+srv://sidrxo:Merlin2911@anywhere.omaoaeq.mongodb.net/?retryWrites=true&w=majority&appName=ANYWHERE', {

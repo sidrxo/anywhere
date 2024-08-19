@@ -1,13 +1,16 @@
 /* src/Profile.css */
 
 .profile-container {
-  margin: 20px auto;
+  justify-content: center;
+  align-items: center;
+  margin-left: 40vw;
+  margin-top: 20vh;  
   padding: 20px;
-  max-width: 600px;
+  max-width: fit-content;
   background-color: #f4f4f4;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+} 
 
 .profile-container h2 {
   color: #333;
