@@ -1,75 +1,142 @@
 const express = require('express');
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const mongoose = require('mongoose');
-const User = require('./models/User'); // Ensure you have a User model defined
-const cors = require('cors'); // Import CORS middleware
-const { v4: uuidv4 } = require('uuid'); // Add this line
+const uuid = require('uuid');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
+const User = require('./models/User');
+const cors = require('cors'); // Import cors
+
+require('dotenv').config();
+
 
 
 const app = express();
-app.use(express.json());
-
 app.use(cors({
-  origin: 'http://localhost:5001', // Allow requests from this origin
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these methods
-  credentials: true // Allow cookies to be sent with requests
+  origin: 'http://localhost:5001', // Replace with your frontend URL
+  credentials: true, // Allow cookies to be sent and received
+
 }));
 
+// 1. Cookie Parser Middleware
+app.use(cookieParser());
 
-app.post('/users', async (req, res) => {
-  try {
-    const { googleId, name, email, profilePicture, uniqueId } = req.body;
-    const uniqueIdentifier = uuidv4(); // Generate unique identifier
+mongoose.connect(process.env.MONGODB_URI, {
 
+});
+
+// 2. Session Middleware
+app.use(session({
+    secret: 'your-secret-key', // Use a secure key in production
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
+}));
+
+// 3. Passport Initialization Middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Passport Configuration
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: '/auth/google/callback',
+},
+async (accessToken, refreshToken, profile, done) => {
+    try {
+        let user = await User.findOne({ googleId: profile.id });
+
+        if (user) {
+            return done(null, user);
+        } else {
+            const newUser = new User({
+                googleId: profile.id,
+                email: profile.emails[0].value,
+                name: profile.displayName,
+                uuid: uuid.v4(),
+            });
+
+            await newUser.save();
+            return done(null, newUser);
+        }
+    } catch (err) {
+        console.error('Error in Google Strategy:', err);
+        done(err);
+    }
+}));
+
+passport.serializeUser((user, done) => {
+    console.log('Serializing user:', user);
+    if (user && user.uuid) {
+        done(null, user.uuid);
+    } else {
+        done(new Error('User or UUID not found'));
+    }
+});
+
+passport.deserializeUser(async (uuid, done) => {
+    try {
+        const user = await User.findOne({ uuid });
+        if (user) {
+            done(null, user);
+        } else {
+            done(new Error('User not found'));
+        }
+    } catch (err) {
+        done(err);
+    }
+});
+
+// 4. Routes
+// Google OAuth Routes
+app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+app.get('/auth/google/callback', 
+    passport.authenticate('google', { failureRedirect: '/' }),
+    (req, res) => {
+        res.cookie('user_uuid', req.user.uuid, {  });
+        res.redirect('http://localhost:5001/profile');
+    }
+);
+
+// Logout Route
+app.get('/logout', (req, res) => {
+    req.logout((err) => {
+        if (err) return next(err);
+        res.clearCookie('user_uuid');
+        res.redirect('/');
+    });
     
-    // Check if user already exists
-    let user = await User.findOne({ googleId });
-    if (user) {
-      // Update user details if already exists
-      user.name = name;
-      user.email = email;
-      user.profilePicture = profilePicture;
-      user.uniqueId = uniqueId; // Update uniqueId if necessary
-      user = await user.save();
-    } else {
-      // Create new user if not exists
-      user = new User({
-        googleId,
-        uniqueIdentifier, // Add unique identifier
-        name,
-        email,
-        profilePicture,
-        uniqueId,
-      });
-      await user.save();
+});
+
+// Route to Get User Data
+app.get('/user', async (req, res) => {
+    const userUuid = req.cookies['user_uuid'];
+
+    if (!userUuid) {
+        return res.status(401).json({ error: 'Unauthorized' });
     }
-    res.status(200).json({ message: 'User data saved successfully' });
-  } catch (error) {
-    res.status(500).json({ error: 'Error saving user data' });
-  }
-});
 
-// Route to get user data by unique identifier
-app.get('/users', async (req, res) => {
-  const { uniqueIdentifier } = req.query;
-
-  try {
-    const user = await User.findOne({ uniqueIdentifier });
-    if (user) {
-      res.json(user);
-    } else {
-      res.status(404).json({ message: 'User not found' });
+    try {
+        const user = await User.findOne({ uuid: userUuid });
+        if (user) {
+            res.json(user);
+        } else {
+            res.status(404).json({ error: 'User not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ error: 'Internal Server Error' });
     }
-  } catch (error) {
-    res.status(500).json({ message: 'Failed to fetch user data' });
-  }
 });
 
-
-// Connect to MongoDB and start server
-mongoose.connect('mongodb+srv://sidrxo:Merlin2911@anywhere.omaoaeq.mongodb.net/?retryWrites=true&w=majority&appName=ANYWHERE', {
-
+// 5. Error Handling Middleware (optional)
+app.use((err, req, res, next) => {
+    console.error('Error:', err);
+    res.status(500).send('Something went wrong!');
 });
 
-app.listen(7000, () => {
-  console.log('Server is running on port 7000');
-});
+const PORT = 7000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

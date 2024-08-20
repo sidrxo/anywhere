@@ -3,6 +3,11 @@ import axios from 'axios';
 import HomeBoard from '../components/HomeBoard';
 import './page-styles/Home.css';
 
+axios.defaults.baseURL = 'http://localhost:5000'; // Your API base URL
+axios.defaults.withCredentials = true; // Ensure cookies are included in requests
+
+
+
 const Home = ({ numColumns }) => {
   const [images, setImages] = useState([]);
   const [prevScrollTop, setPrevScrollTop] = useState(0); // Track previous scroll position

@@ -37,7 +37,12 @@ const imageSchema = new mongoose.Schema({
 const Image = mongoose.model('Image', imageSchema);
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5001', // Your frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true, // Allow cookies
+
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

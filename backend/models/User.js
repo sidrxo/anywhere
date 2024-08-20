@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
-  googleId: String,
-  name: String,
-  email: String,
-  profilePicture: String,
-  uniqueId: String, // Add uniqueId field
+const UserSchema = new mongoose.Schema({
+    googleId: String,
+    email: String,
+    name: String,
+    uuid: String,
 });
 
-module.exports = mongoose.model('User', userSchema);
+const User = mongoose.model('User', UserSchema);
+
+module.exports = User;
