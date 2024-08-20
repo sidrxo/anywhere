@@ -31,6 +31,8 @@ const imageSchema = new mongoose.Schema({
   url: String,
   description: String,
   tags: [String], // Store the tags as an array of strings
+  uploadDate: { type: Date, default: Date.now } // Automatically set to the current date
+
 });
 
 // Model for the images
