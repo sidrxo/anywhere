@@ -7,7 +7,7 @@ const cors = require('cors');
 const FormData = require('form-data');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 const IMG_URL = 'https://api.imgbb.com/1/upload';
 const IMG_API_KEY = process.env.IMG_API_KEY;
 const MONGODB_URI = process.env.MONGODB_URI;
