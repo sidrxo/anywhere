@@ -158,4 +158,3 @@ app.use((err, req, res, next) => {
 const PORT = 7001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}, ${process.env.REACT_APP_API_BASE_URL}`));
 
-console.log(process.env.REACT_APP_API_BASE_URL)
