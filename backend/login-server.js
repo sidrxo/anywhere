@@ -46,8 +46,7 @@ app.use(session({
     saveUninitialized: false,
     store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
     cookie: {
-        httpOnly: true, // Restrict cookie access to HTTP(S) requests only
-        sameSite: 'Lax', // Adjust as necessary for your use case
+
       }
 }));
 
@@ -113,8 +112,11 @@ app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'em
 app.get('/auth/google/callback', 
     passport.authenticate('google', { failureRedirect: '/' }),
     (req, res) => {
-        res.cookie('user_uuid', req.user.uuid, {  });
-        res.redirect(`https://anywhere-1-1ud7.onrender.com/profile`);
+        res.cookie('user_uuid', req.user.uuid, {
+            httpOnly: true, // Ensure the cookie is only accessible via HTTP(S)
+            sameSite: 'None', // Necessary for cross-origin requests
+            secure: process.env.NODE_ENV === 'production', // Set to true in production (HTTPS)
+        });        res.redirect(`${process.env.FRONTEND_URL}/profile`);
     }
 );
 
