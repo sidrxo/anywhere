@@ -5,6 +5,7 @@ const multer = require('multer');
 const axios = require('axios');
 const cors = require('cors');
 const FormData = require('form-data');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const app = express();
 const PORT = process.env.PORT;
@@ -260,6 +261,12 @@ app.get('/search', async (req, res) => {
     res.status(500).send('Error searching images.');
   }
 });
+
+app.use('/api', createProxyMiddleware({
+  target: 'http://localhost:7001', // Target the port where login-server.js is running
+  changeOrigin: true,
+}));
+
 
 // Start server
 app.listen(PORT, () => {

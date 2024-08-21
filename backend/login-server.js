@@ -58,7 +58,7 @@ app.use(passport.session());
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: 'https://anywhere-login.onrender.com/auth/google/callback',
+    callbackURL: process.env.GOOGLE_CALLBACK_URL, // Use the environment variable here
 },
 async (accessToken, refreshToken, profile, done) => {
     try {
@@ -113,11 +113,7 @@ app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
     (req, res) => {
         res.cookie('user_uuid', req.user.uuid, {
-            proxy: true,
-            httpOnly: heap, // Ensure the cookie is only accessible via HTTP(S)
-            sameSite: 'None', // Necessary for cross-origin requests
-            secure: 'true', // Set to true in production (HTTPS)
-        });        res.redirect(`https://anywhere-1-1ud7.onrender.com/profile`);
+        });        res.redirect(`${process.env.FRONTEND_URL}/profile`);
     }
 );
 
@@ -157,5 +153,9 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something went wrong!');
 });
 
-const PORT = 7000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+const PORT = 7001;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}, ${process.env.REACT_APP_API_BASE_URL}`));
+
+console.log(process.env.REACT_APP_API_BASE_URL)

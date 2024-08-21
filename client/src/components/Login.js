@@ -2,13 +2,13 @@ import React from 'react';
 import axios from 'axios';
 
 
-axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL; // Replace with your backend URL
+axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL; // Replace with your backend URL
 axios.defaults.withCredentials = true; // Ensure cookies are included in requests
 
 
 const Login = () => {
     const handleGoogleLogin = () => {
-        window.location.href = `${process.env.REACT_APP_BACKEND_URL}/auth/google`;
+        window.location.href = 'http://localhost:5000/api/auth/google';
     };
 
     return (
@@ -19,6 +19,5 @@ const Login = () => {
     );
 };
 
-console.log(process.env.REACT_APP_BACKEND_URL);
 
 export default Login;

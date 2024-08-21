@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom'; // Use useNavigate for programmatic navigation
 
-axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL; // Replace with your backend URL
+axios.defaults.baseURL = `${process.env.REACT_APP_API_BASE_URL}`;
 axios.defaults.withCredentials = true; // Ensure cookies are included in requests
 
 const Profile = () => {
@@ -13,7 +13,7 @@ const Profile = () => {
 
     useEffect(() => {
         // Fetch user data from backend
-        axios.get('https://anywhere-login.onrender.com/user') // Adjust path based on your backend route
+        axios.get('http://localhost:5000/api/user') // Adjust path based on your backend route
             .then(response => {
                 setUser(response.data);
                 setLoading(false);
@@ -26,7 +26,7 @@ const Profile = () => {
     }, []);
 
     const handleLogout = () => {
-        axios.get('/logout')
+        axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/logout`)
             .then(() => {
                 // Clear user state and redirect after logout
                 setUser(null);
