@@ -58,7 +58,7 @@ app.use(passport.session());
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: 'https://anywhere-login.onrender.com/auth/google/callback',
+    callbackURL: 'http://localhost:7000/auth/google/callback',
 },
 async (accessToken, refreshToken, profile, done) => {
     try {
@@ -113,9 +113,9 @@ app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
     (req, res) => {
         res.cookie('user_uuid', req.user.uuid, {
-            httpOnly: true, // Ensure the cookie is only accessible via HTTP(S)
+            httpOnly: false, // Ensure the cookie is only accessible via HTTP(S)
             sameSite: 'None', // Necessary for cross-origin requests
-            secure: process.env.NODE_ENV === 'production', // Set to true in production (HTTPS)
+            secure: 'false', // Set to true in production (HTTPS)
         });        res.redirect(`${process.env.FRONTEND_URL}/profile`);
     }
 );
