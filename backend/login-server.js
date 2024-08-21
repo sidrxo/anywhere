@@ -113,7 +113,7 @@ app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
     (req, res) => {
         res.cookie('user_uuid', req.user.uuid, {
-        });        res.redirect(`lol/profile`);
+        });        res.redirect(`https://anywhere-1-1ud7.onrender.com/profile`);
     }
 );
 
