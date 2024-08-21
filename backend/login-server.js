@@ -15,9 +15,8 @@ require('dotenv').config();
 
 const app = express();
 app.use(cors({
-  origin: 'http://localhost:5001', // Replace with your frontend URL
+    origin: process.env.FRONTEND_URL, // Use the environment variable for the frontend URL
   credentials: true, // Allow cookies to be sent and received
-
 }));
 
 // 1. Cookie Parser Middleware
@@ -33,6 +32,10 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
+    cookie: {
+        httpOnly: true, // Restrict cookie access to HTTP(S) requests only
+        sameSite: 'Lax', // Adjust as necessary for your use case
+      }
 }));
 
 // 3. Passport Initialization Middleware
@@ -98,7 +101,7 @@ app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
     (req, res) => {
         res.cookie('user_uuid', req.user.uuid, {  });
-        res.redirect('http://localhost:5001/profile');
+        res.redirect(`${process.env.FRONTEND_URL}/profile`);
     }
 );
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom'; // Use useNavigate for programmatic navigation
 
-axios.defaults.baseURL = 'http://localhost:7000'; // Replace with your backend URL
+axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL; // Replace with your backend URL
 axios.defaults.withCredentials = true; // Ensure cookies are included in requests
 
 const Profile = () => {
@@ -31,7 +31,7 @@ const Profile = () => {
                 // Clear user state and redirect after logout
                 setUser(null);
                 setError('You have been logged out.');
-                navigate('http://localhost:5001/'); // Redirect to login page
+                navigate('/login'); // Redirect to login page
             })
             .catch(error => {
                 console.error('Error logging out:', error);
