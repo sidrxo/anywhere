@@ -11,13 +11,26 @@ const cors = require('cors'); // Import cors
 
 require('dotenv').config();
 
-
-
 const app = express();
+
+
+const allowedOrigins = [
+  'http://localhost:3000', // Add your local development origin
+  'https://anywhere-1-1ud7.onrender.com', // Add your production origin
+];
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL, // Use the environment variable for the frontend URL
-  credentials: true, // Allow cookies to be sent and received
-}));
+    origin: function (origin, callback) {
+      if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+        // Allow requests from allowed origins and no origin (e.g., Postman)
+        callback(null, true);
+      } else {
+        // Reject requests from unknown origins
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true, // Allow credentials (cookies, authorization headers)
+  }));
 
 // 1. Cookie Parser Middleware
 app.use(cookieParser());
