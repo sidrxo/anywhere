@@ -46,10 +46,7 @@ app.use(session({
     saveUninitialized: false,
     store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
     cookie: {
-        proxy: true,
-        httpOnly: false, // Ensure the cookie is only accessible via HTTP(S)
-        sameSite: 'None', // Necessary for cross-origin requests
-        secure: 'false', // Set to true in production (HTTPS)
+
       }
 }));
 
@@ -116,6 +113,7 @@ app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
     (req, res) => {
         res.cookie('user_uuid', req.user.uuid, {
+            proxy: true,
             httpOnly: false, // Ensure the cookie is only accessible via HTTP(S)
             sameSite: 'None', // Necessary for cross-origin requests
             secure: 'false', // Set to true in production (HTTPS)
