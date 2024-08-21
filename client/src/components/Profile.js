@@ -13,7 +13,7 @@ const Profile = () => {
 
     useEffect(() => {
         // Fetch user data from backend
-        axios.get('/user') // Adjust path based on your backend route
+        axios.get('https://anywhere-login.onrender.com/user') // Adjust path based on your backend route
             .then(response => {
                 setUser(response.data);
                 setLoading(false);
