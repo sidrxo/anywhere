@@ -13,7 +13,7 @@ const Profile = () => {
 
     useEffect(() => {
         // Fetch user data from backend
-        axios.get('http://localhost:5000/api/user') // Adjust path based on your backend route
+        axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/user`) // Adjust path based on your backend route
             .then(response => {
                 setUser(response.data);
                 setLoading(false);
