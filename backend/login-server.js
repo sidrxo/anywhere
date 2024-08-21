@@ -116,7 +116,7 @@ app.get('/auth/google/callback',
             proxy: true,
             httpOnly: false, // Ensure the cookie is only accessible via HTTP(S)
             sameSite: 'None', // Necessary for cross-origin requests
-            secure: 'false', // Set to true in production (HTTPS)
+            secure: 'true', // Set to true in production (HTTPS)
         });        res.redirect(`https://anywhere-1-1ud7.onrender.com/profile`);
     }
 );
