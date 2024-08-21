@@ -15,7 +15,7 @@ const app = express();
 
 
 const allowedOrigins = [
-  'http://localhost:3000', // Add your local development origin
+  'http://localhost:5001', // Add your local development origin
   'https://anywhere-1-1ud7.onrender.com', // Add your production origin
 ];
 
@@ -59,7 +59,7 @@ app.use(passport.session());
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: '/auth/google/callback',
+    callbackURL: 'https://anywhere-1-1ud7.onrender.com/auth/google/callback',
 },
 async (accessToken, refreshToken, profile, done) => {
     try {
