@@ -113,7 +113,7 @@ app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
     (req, res) => {
         res.cookie('user_uuid', req.user.uuid, {
-        });        res.redirect(`https://anywhere-1-1ud7.onrender.com/profile`);
+        });        res.redirect(`${process.env.FRONTEND_URL}/profile`);
     }
 );
 
@@ -122,7 +122,7 @@ app.get('/logout', (req, res) => {
     req.logout((err) => {
         if (err) return next(err);
         res.clearCookie('user_uuid');
-        res.redirect('/');
+        res.redirect('/home');
     });
     
 });

@@ -8,7 +8,7 @@ axios.defaults.withCredentials = true; // Ensure cookies are included in request
 
 const Login = () => {
     const handleGoogleLogin = () => {
-        window.location.href = `https://anywhere-1-1ud7.onrender.com/api/auth/google`;
+        window.location.href = `${process.env.REACT_APP_API_BASE_URL}/api/auth/google`;
     };
 
     return (
