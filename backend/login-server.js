@@ -114,7 +114,7 @@ app.get('/auth/google/callback',
     (req, res) => {
         res.cookie('user_uuid', req.user.uuid, {
             proxy: true,
-            httpOnly: false, // Ensure the cookie is only accessible via HTTP(S)
+            httpOnly: heap, // Ensure the cookie is only accessible via HTTP(S)
             sameSite: 'None', // Necessary for cross-origin requests
             secure: 'true', // Set to true in production (HTTPS)
         });        res.redirect(`https://anywhere-1-1ud7.onrender.com/profile`);
