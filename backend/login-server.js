@@ -113,7 +113,7 @@ app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
     (req, res) => {
         res.cookie('user_uuid', req.user.uuid, {
-        });        res.redirect(`${process.env.FRONTEND_URL}/profile`);
+        });        res.redirect(`${process.env.FRONTEND_URL}profile`);
     }
 );
 
