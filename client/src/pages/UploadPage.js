@@ -31,6 +31,7 @@ const UploadPage = () => {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        withCredentials: true, // Ensure cookies are sent with the request
       });
       setMessage('File uploaded successfully!');
       setSelectedFile(null);

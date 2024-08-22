@@ -6,6 +6,8 @@ const axios = require('axios');
 const cors = require('cors');
 const FormData = require('form-data');
 const { createProxyMiddleware } = require('http-proxy-middleware');
+const cookieParser = require('cookie-parser');
+
 
 const app = express();
 const PORT = process.env.PORT;
@@ -32,7 +34,8 @@ const imageSchema = new mongoose.Schema({
   url: String,
   description: String,
   tags: [String], // Store the tags as an array of strings
-  uploadDate: { type: Date, default: Date.now } // Automatically set to the current date
+  uploadDate: { type: Date, default: Date.now }, // Automatically set to the current date
+  user_uuid: { type: String, required: true } // New field to store user_uuid
 
 });
 
@@ -65,6 +68,8 @@ app.use(cors({
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
 
 // Multer setup for file handling
 const storage = multer.memoryStorage();
@@ -114,6 +119,12 @@ const fetchImageTags = async (imageUrl) => {
 app.post('/upload', upload.single('image'), async (req, res) => {
   if (!req.file) return res.status(400).send('No file uploaded.');
 
+  // Extract the user_uuid from cookies
+  const user_uuid = req.cookies.user_uuid;
+  if (!user_uuid) {
+    return res.status(401).send('User not authenticated.');
+  }
+
   try {
     const form = new FormData();
     form.append('image', req.file.buffer, { filename: req.file.originalname });
@@ -128,20 +139,19 @@ app.post('/upload', upload.single('image'), async (req, res) => {
     const { data } = response;
 
     if (!data || !data.data || !data.data.url) {
-      thrownewError('ImgBB response does not contain expected data');
+      throw new Error('ImgBB response does not contain expected data');
     }
 
     const imgURL = data.data.url;
     const identifier = await generateUniqueIdentifier();
-
-    // The analyzeImage function returns an array of tags, so we should directly map over it
     const tags = await analyzeImage(imgURL);
 
     const newImage = new Image({
       identifier,
       url: imgURL,
       description: req.body.description || '',
-      tags: tags.map(tag => tag.name), // Extract the tag names
+      tags: tags.map(tag => tag.name), 
+      user_uuid, // Store the user_uuid with the image
       uploadDate: new Date()
     });
 
@@ -153,6 +163,8 @@ app.post('/upload', upload.single('image'), async (req, res) => {
     res.status(500).send('Error uploading image.');
   }
 });
+
+
 
 
 
@@ -210,6 +222,22 @@ app.post('/upload-multiple', upload.array('images'), async (req, res) => {
 app.get('/images', async (req, res) => {
   try {
     const images = await Image.find();
+    res.status(200).json(images);
+  } catch (error) {
+    console.error('Error fetching images:', error.message);
+    res.status(500).send('Error fetching images.');
+  }
+});
+
+app.get('/images/user', async (req, res) => {
+  const userUuid = req.query.user_uuid; // Read user_uuid from query parameters
+
+  if (!userUuid) {
+    return res.status(400).send('User UUID is required.');
+  }
+
+  try {
+    const images = await Image.find({ userUuid }); // Find images by userUuid
     res.status(200).json(images);
   } catch (error) {
     console.error('Error fetching images:', error.message);

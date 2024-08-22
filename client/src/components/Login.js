@@ -1,10 +1,9 @@
 import React from 'react';
+import GoogleSignInButton from './GoogleSignInButton'; // Adjust the import path as necessary
 import axios from 'axios';
 
-
-axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL; // Replace with your backend URL
-axios.defaults.withCredentials = true; // Ensure cookies are included in requests
-
+axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL;
+axios.defaults.withCredentials = true;
 
 const Login = () => {
     const handleGoogleLogin = () => {
@@ -14,10 +13,9 @@ const Login = () => {
     return (
         <div>
             <h1>Login</h1>
-            <button onClick={handleGoogleLogin}>Login with Google</button>
+            <GoogleSignInButton onClick={handleGoogleLogin} />
         </div>
     );
 };
-
 
 export default Login;

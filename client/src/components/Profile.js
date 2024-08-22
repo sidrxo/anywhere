@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import UploadsBoard from './UploadsBoard'; // Import UploadsBoard
+
 import { Link, useNavigate } from 'react-router-dom'; // Use useNavigate for programmatic navigation
 
 axios.defaults.baseURL = `${process.env.REACT_APP_API_BASE_URL}`;
@@ -53,6 +55,9 @@ const Profile = () => {
                     <p>Name: {user.name}</p>
                     <p>Email: {user.email}</p>
                     <button onClick={handleLogout}>Logout</button>
+                    <div className="uploads-container">
+      <UploadsBoard numColumns={3}  />
+    </div>
                 </div>
             )}
         </div>
