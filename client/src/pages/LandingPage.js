@@ -1,6 +1,6 @@
 // src/pages/LandingPage.js
 import React from 'react';
-import './LandingPage.css'; // Import the CSS file for styling
+import './page-styles/LandingPage.css'; // Import the CSS file for styling
 
 const LandingPage = () => {
   return (

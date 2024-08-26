@@ -1,24 +1,3 @@
-.profile-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    margin-top: 20vh; /* Adjust margin for spacing */
-    height: 100vh;
-    transition: opacity 0.4s ease-out;
-    opacity: 1;
-}
-
-.profile-heading {
-    font-size: 32px;
-    color: rgb(38, 38, 167);
-    margin-bottom: 20px;
-}
-
-.error-message {
-    text-align: center;
-}
-
 .login-link {
     text-decoration: none;
     color: rgb(38, 38, 167);
@@ -66,5 +45,5 @@ body {
 }
 
 body.fade-out {
-    opacity: 0.25;
+    opacity: 0;
 }

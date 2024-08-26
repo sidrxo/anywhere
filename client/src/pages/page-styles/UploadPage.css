@@ -1,47 +1,61 @@
+/* Fade-in effect for the page */
 .upload-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    text-align: center;
-    background-color: #f0f0f0; /* Light background color */
-  }
-  
-  .upload-page h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-  }
-  
-  .upload-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-  }
-  
-  .file-input {
-    margin-bottom: 10px;
-  }
-  
-  .upload-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .upload-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .message {
-    margin-top: 10px;
-    font-size: 1rem;
-    color: #333;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  background-color: #f0f0f0; /* Light background color */
+  transition: opacity 0.75s ease-out; /* Duration and timing function for the fade-in effect */
+}
+
+
+.upload-page h1 {
+  font-size: 2rem;
+  color: rgb(38, 38, 167); /* Matching color scheme */
+  margin-bottom: 20px;
+}
+
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  transition: opacity 0.75s ease-out; /* Duration and timing function for the fade-in effect */
+
+}
+
+.file-input {
+  margin-bottom: 10px;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  width: 100%; /* Full width to match the input styles from LoginPage */
+  max-width: 400px; /* Max width similar to LoginPage */
+}
+
+.upload-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #191919; /* Dark background similar to LoginPage button */
+  color: white;
+  border: none;
+  border-radius: 8px; /* Matching border radius */
+  font-size: 14px; /* Matching font size */
+  cursor: pointer;
+  height: 40px; /* Matching height to LoginPage button */
+  max-width: 400px; /* Max width similar to LoginPage */
+  transition: background-color 0.3s ease;
+}
+
+.upload-button:hover {
+  background-color: #333;
+}
+
+.message {
+  margin-top: 10px;
+  font-size: 0.9rem; /* Matching font size to align with LoginPage */
+  color: #333;
+}

@@ -1,8 +1,20 @@
 /* src/pages/ChromaPage.css */
 .chroma-page {
-    margin-top: 70px;
+    margin-top: 40vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+    animation: fadeIn 0.75s ease-out;
+
   }
   
+  @keyframes fadeIn {
+    0% {
+      background-color: white;
+      opacity: 0;
+    }
+    100% {
+      background-color: transparent;
+      opacity: 1;
+    }
+  }

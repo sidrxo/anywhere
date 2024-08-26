@@ -92,6 +92,10 @@ header a:hover {
   opacity: 1;
 }
 
+.mobile-header a.active-link {
+  opacity: 1; /* Full opacity for the active link */
+}
+
 /* Media query for mobile devices */
 @media (max-width: 768px) {
   /* Hide the main header on mobile devices */
@@ -144,4 +148,8 @@ display: flex;  }
 .header-section #section1 {
   display: flex;
   align-items: center;
+}
+
+nav a.active-link {
+  opacity: 1; /* Full opacity for the active link */
 }

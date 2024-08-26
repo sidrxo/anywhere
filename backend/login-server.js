@@ -25,7 +25,7 @@ const isLocal = process.env.NODE_ENV === 'development'; // Check if running in d
 
 const callbackURL = (process.env.NODE_ENV === 'development')
   ? 'http://localhost:5050/api/auth/google/callback' // Localhost URL for development
-  : 'https://server.anywh3re.xyz/api/auth/google/callback'; // Production URL
+  : 'https://chroma.bar/api/auth/google/callback'; // Production URL
 
 app.use(cors({
     origin: function (origin, callback) {

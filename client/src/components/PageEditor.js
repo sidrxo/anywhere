@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './component-styles/PageEditor.css';
 
 const PageEditor = ({ isVisible, onClose, numColumns, setNumColumns }) => {
+  const editorRef = useRef(null);
+
   const handleColumnsChange = (event) => {
     setNumColumns(event.target.value);
   };
-
 
   // Event listener to handle ESC key press
   useEffect(() => {
@@ -15,17 +16,25 @@ const PageEditor = ({ isVisible, onClose, numColumns, setNumColumns }) => {
       }
     };
 
-    document.addEventListener('keydown', handleEscKey);
+    const handleClickOutside = (event) => {
+      if (editorRef.current && !editorRef.current.contains(event.target)) {
+        onClose();
+      }
+    };
 
-    // Cleanup the event listener on component unmount
+    document.addEventListener('keydown', handleEscKey);
+    document.addEventListener('mousedown', handleClickOutside);
+
+    // Cleanup event listeners on component unmount
     return () => {
       document.removeEventListener('keydown', handleEscKey);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [onClose]); // Dependency array includes onClose to ensure it is properly referenced
+  }, [onClose]);
 
   return (
-    <div className={`page-editor ${isVisible ? 'open' : ''}`}>
-      <button className="close" onClick={onClose}></button>
+    <div className={`page-editor ${isVisible ? 'open' : ''}`} ref={editorRef}>
+      <button className="close" onClick={onClose}>×</button>
       <div className="editor-section">
         <h2>size</h2>
         <input

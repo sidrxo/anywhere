@@ -44,10 +44,9 @@ const Profile = () => {
 
     return (
         <div className="profile-page">
-            <h1 className="profile-heading">Profile</h1>
             <div className="profile-details">
-                <p><strong>Name:</strong> {user.name}</p>
-                <p><strong>Email:</strong> {user.email}</p>
+                <p><strong></strong> {user.name}</p>
+                <p><strong></strong> {user.email}</p>
                 <button onClick={handleLogout} className="logout-button">Logout</button>
                 <div className="uploads-container">
                     <UploadsBoard numColumns={3} />

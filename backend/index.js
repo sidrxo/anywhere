@@ -211,7 +211,6 @@ app.post('/upload-multiple', upload.array('images'), async (req, res) => {
       identifiers.push(identifier);
     }
 
-    res.status(200).json({ images: imageUrls });
   } catch (error) {
     console.error('Error during multiple image upload:', error.response ? error.response.data : error.message);
     res.status(500).send('Error uploading images.');

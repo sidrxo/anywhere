@@ -6,7 +6,7 @@ import './page-styles/ChromaPage.css'; // Import any additional CSS if needed
 const ChromaPage = () => {
   return (
     <div className="chroma-page">
-      <h1>bar.</h1>
+      <h1>bar is coming soon.</h1>
       <ChromaBar />
     </div>
   );

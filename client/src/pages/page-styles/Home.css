@@ -6,7 +6,6 @@
   padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 60px;
-
 }
 
 .home-container::-webkit-scrollbar {
@@ -16,6 +15,7 @@
 .home-container {
   -ms-overflow-style: none; /* Hides scrollbar for Internet Explorer and Edge */
   scrollbar-width: none; /* Hides scrollbar for Firefox */
+  
 }
 
 .gradient-fade {
@@ -46,7 +46,6 @@
 
     .home-container {
 padding-top: 1vh;
-
     }
 }
 

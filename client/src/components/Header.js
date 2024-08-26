@@ -7,6 +7,9 @@ const Header = ({ onEditClick }) => {
   const location = useLocation();
   const isLoginPage = location.pathname === '/login';
 
+  // Determine the current path to highlight the active link
+  const getLinkClass = (path) => (location.pathname === path ? 'active-link' : '');
+
   return (
     <>
       {/* Main Header */}
@@ -21,17 +24,16 @@ const Header = ({ onEditClick }) => {
         </div>
         <div className="header-section" id="section2">
           <nav>
-            <Link to="/home">home</Link>
-            <Link to="/chroma">bar</Link>
-            <Link to="/search">search</Link>
-
+            <Link to="/home" className={getLinkClass('/home')}>home</Link>
+            <Link to="/chroma" className={getLinkClass('/chroma')}>bar</Link>
+            <Link to="/search" className={getLinkClass('/search')}>search</Link>
           </nav>
         </div>
         <div className="header-section" id="section3">
           <nav>
             <a href="#edit" onClick={(e) => { e.preventDefault(); onEditClick(); }}>edit</a>
-            <Link to="/upload">add</Link>
-            <Link to="/profile">profile</Link>
+            <Link to="/upload" className={getLinkClass('/upload')}>add</Link>
+            <Link to="/profile" className={getLinkClass('/profile')}>profile</Link>
           </nav>
         </div>
       </header>
@@ -39,10 +41,10 @@ const Header = ({ onEditClick }) => {
       {/* Mobile Footer Header */}
       <div className={isLoginPage ? 'mobile-header header-black' : 'mobile-header'}>
         <nav>
-          <Link to="/home">home</Link>
-          <Link to="/search">search</Link>
-          <Link to="/myuploadspage">my pins</Link>
-          <Link to="/upload">add</Link>
+          <Link to="/home" className={getLinkClass('/home')}>home</Link>
+          <Link to="/search" className={getLinkClass('/search')}>search</Link>
+          <Link to="/myuploadspage" className={getLinkClass('/myuploadspage')}>my pins</Link>
+          <Link to="/upload" className={getLinkClass('/upload')}>add</Link>
         </nav>
       </div>
     </>

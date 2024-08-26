@@ -1,0 +1,18 @@
+.progress-container {
+    width: 100%;
+    max-width: 400px; /* Max width to match other elements */
+    background-color: #ddd; /* Light background for the container */
+    border-radius: 8px;
+    overflow: hidden; /* Ensures the progress bar doesn't overflow the container */
+    margin-bottom: 15px;
+}
+
+.progress-bar {
+    height: 10px;
+    background-color: #007bff; /* Blue color for the progress */
+    color: white;
+    text-align: center;
+    line-height: 10px;
+    border-radius: 8px;
+    transition: width 0.3s ease; /* Smooth transition for the width */
+}
