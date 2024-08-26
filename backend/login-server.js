@@ -17,7 +17,7 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:5001', // Add your local development origin
   'https://anywhere-1-1ud7.onrender.com', // Add your production origin
-  'https://anywh3re.xyz', // Add your production origin
+  'https://chroma.bar', // Add your production origin
 
 ];
 
@@ -131,7 +131,7 @@ app.get('/logout', (req, res) => {
     req.logout((err) => {
         if (err) return next(err);
         res.clearCookie('user_uuid');
-        res.redirect('/home');
+        res.json({ message: 'Logged out successfully' });
     });
     
 });

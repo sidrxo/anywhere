@@ -47,7 +47,7 @@ const Image = mongoose.model('Image', imageSchema);
 const allowedOrigins = [
   'http://localhost:5001', // Add your local development origin
   'https://anywhere-1-1ud7.onrender.com', // Add your production origin
-  'https://anywh3re.xyz', // Add your production origin
+  'https://chroma.bar', // Add your production origin
 
 ];
 

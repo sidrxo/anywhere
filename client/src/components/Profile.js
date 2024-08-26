@@ -1,66 +1,58 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './component-styles/Profile.css'; // Assuming you'll put the CSS here
 import UploadsBoard from './UploadsBoard'; // Import UploadsBoard
-
-import { Link, useNavigate } from 'react-router-dom'; // Use useNavigate for programmatic navigation
+import { useNavigate } from 'react-router-dom';
+import './Profile.css'; // Import the CSS file for styling
 
 axios.defaults.baseURL = `${process.env.REACT_APP_API_BASE_URL}`;
 axios.defaults.withCredentials = true; // Ensure cookies are included in requests
 
 const Profile = () => {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true); // State to track loading status
-    const [error, setError] = useState(null); // State to track errors
-    const navigate = useNavigate(); // Hook for programmatic navigation
+    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        // Fetch user data from backend
-        axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/user`) // Adjust path based on your backend route
+        axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/user`)
             .then(response => {
                 setUser(response.data);
                 setLoading(false);
             })
-            .catch(error => {
-                console.error('Error fetching user data:', error);
-                setError('You are not logged in.');
-                setLoading(false);
+            .catch(() => {
+                navigate('/login');
             });
-    }, []);
+    }, [navigate]);
 
     const handleLogout = () => {
-        axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/logout`)
-            .then(() => {
-                // Clear user state and redirect after logout
-                setUser(null);
-                setError('You have been logged out.');
-                navigate('/login'); // Redirect to login page
-            })
-            .catch(error => {
-                console.error('Error logging out:', error);
-            });
+        // Start fade-out transition
+        document.body.classList.add('fade-out');
+        
+        setTimeout(() => {
+            axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/logout`)
+                .then(() => {
+                    setUser(null);
+                    navigate('/login');
+                    window.location.reload();
+                })
+                .catch(error => {
+                    console.error('Error logging out:', error);
+                });
+        }, 500); // Delay to match the CSS transition duration
     };
 
-    if (loading) return <p>Loading...</p>; // Show loading message while fetching data
+    if (loading) return <p>Loading...</p>;
 
     return (
-        <div>
-            <h1>Profile</h1>
-            {error ? (
-                <div>
-                    <p>{error}</p>
-                    <Link to="/login">Login</Link> {/* Provide a link to the login page */}
+        <div className="profile-page">
+            <h1 className="profile-heading">Profile</h1>
+            <div className="profile-details">
+                <p><strong>Name:</strong> {user.name}</p>
+                <p><strong>Email:</strong> {user.email}</p>
+                <button onClick={handleLogout} className="logout-button">Logout</button>
+                <div className="uploads-container">
+                    <UploadsBoard numColumns={3} />
                 </div>
-            ) : (
-                <div>
-                    <p>Name: {user.name}</p>
-                    <p>Email: {user.email}</p>
-                    <button onClick={handleLogout}>Logout</button>
-                    <div className="uploads-container">
-      <UploadsBoard numColumns={3}  />
-    </div>
-                </div>
-            )}
+            </div>
         </div>
     );
 };

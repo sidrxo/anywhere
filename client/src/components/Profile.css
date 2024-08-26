@@ -1,0 +1,70 @@
+.profile-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin-top: 20vh; /* Adjust margin for spacing */
+    height: 100vh;
+    transition: opacity 0.4s ease-out;
+    opacity: 1;
+}
+
+.profile-heading {
+    font-size: 32px;
+    color: rgb(38, 38, 167);
+    margin-bottom: 20px;
+}
+
+.error-message {
+    text-align: center;
+}
+
+.login-link {
+    text-decoration: none;
+    color: rgb(38, 38, 167);
+    font-weight: bold;
+}
+
+.profile-details {
+    width: 100%;
+    max-width: 400px; /* Consistent max width */
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.profile-details p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.logout-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #191919;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.logout-button:hover {
+    background-color: #333;
+}
+
+.uploads-container {
+    margin-top: 30px;
+}
+
+body {
+    transition: opacity 0.4s ease-out;
+    opacity: 1;
+}
+
+body.fade-out {
+    opacity: 0.25;
+}
