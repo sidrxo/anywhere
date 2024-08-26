@@ -1,0 +1,62 @@
+/* src/pages/LoginPage.css */
+
+.login-page {
+    display: flex;
+    margin-top: 25vh;
+    justify-content: center;
+  }
+  
+  .login-container {
+    text-align: center;
+    width: 100%;
+    max-width: 400px; /* Max width for the container */
+  }
+  
+  h3 {
+    font-size: 28px;
+    color: rgb(38, 38, 167);
+}
+  
+  .login-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .login-input {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    height: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .or-text {
+    margin-top: -20px;
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 50px;
+  }
+  .email-login-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #191919;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    height: 40px;
+  }
+  
+  .email-login-button:hover {
+    background-color: #333;
+  }
+  .email-label {
+    margin-bottom: 8px;
+    margin-top: 50px;
+    font-size: 0.9rem;
+    color: #333;
+    align-self: flex-start; /* Align label to the left */
+  }
+  

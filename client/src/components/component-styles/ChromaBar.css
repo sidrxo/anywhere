@@ -1,0 +1,46 @@
+/* src/components/ChromaBar.css */
+.chroma-bar {
+    display: flex;
+    width: 80vw;
+    height: 20px; /* Adjust the height as needed */
+    overflow: hidden; /* Hide any overflow from the rotation */
+    transform: skewX(-50deg); /* Slant the sections */
+border-radius: 30px;
+  }
+  .line-section {
+    flex: 1;
+    height: 100%;
+    position: relative;
+    cursor: pointer;
+    transform-origin: bottom left; /* Pivot from the bottom-left */
+  }
+  
+  .line-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit; /* Inherit the gradient or color */
+    transform: skewX(30deg); /* Counter-skew the background */
+    transform-origin: bottom left;
+  }
+  
+  /* Gradient for each section */
+  .red {
+    background: linear-gradient(to right, red, yellow);
+  }
+  
+  .yellow {
+    background: linear-gradient(to right, yellow, green);
+  }
+  
+  .green {
+    background: linear-gradient(to right, green, blue);
+  }
+  
+  .blue {
+    background: linear-gradient(to right, blue, purple );
+  }
+  

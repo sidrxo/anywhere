@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './component-styles/Profile.css'; // Assuming you'll put the CSS here
 import UploadsBoard from './UploadsBoard'; // Import UploadsBoard
 
 import { Link, useNavigate } from 'react-router-dom'; // Use useNavigate for programmatic navigation

@@ -10,7 +10,7 @@ import AdminMainPage from './pages/AdminMainPage';
 import AdminUploadPage from './pages/AdminUploadPage';
 import AdminDeletePage from './pages/AdminDeletePage';
 import './App.css';
-import MyUploadsPage from './pages/MyUploadsPage';
+import ChromaPage from './pages/ChromaPage.js';
 import LoginPage from './pages/LoginPage';
 import Profile from './components/Profile.js';
 import LandingPage from './pages/LandingPage.js';
@@ -50,7 +50,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/upload" element={<UploadPage />} />
-            <Route path="/myuploadspage" element={<MyUploadsPage />} />
+            <Route path="/chroma" element={<ChromaPage />} />
             <Route path="/image/:identifier" element={<ImageViewer />} />
             <Route path="/admin" element={<AdminMainPage />} />
             <Route path="/admin/upload" element={<AdminUploadPage />} />

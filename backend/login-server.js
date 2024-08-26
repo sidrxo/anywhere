@@ -21,6 +21,12 @@ const allowedOrigins = [
 
 ];
 
+const isLocal = process.env.NODE_ENV === 'development'; // Check if running in development mode
+
+const callbackURL = (process.env.NODE_ENV === 'development')
+  ? 'http://localhost:5050/api/auth/google/callback' // Localhost URL for development
+  : 'https://server.anywh3re.xyz/api/auth/google/callback'; // Production URL
+
 app.use(cors({
     origin: function (origin, callback) {
       if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
@@ -52,6 +58,7 @@ app.use(session({
       }
 }));
 
+
 // 3. Passport Initialization Middleware
 app.use(passport.initialize());
 app.use(passport.session());
@@ -60,7 +67,7 @@ app.use(passport.session());
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: 'https://server.anywh3re.xyz/api/auth/google/callback', // Use the environment variable here
+    callbackURL: callbackURL, // Use the environment variable here
 },
 async (accessToken, refreshToken, profile, done) => {
     try {
@@ -158,5 +165,5 @@ app.use((err, req, res, next) => {
 
 
 const PORT = 7001;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}, ${process.env.REACT_APP_API_BASE_URL}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 

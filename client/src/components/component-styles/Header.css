@@ -8,7 +8,6 @@ header {
   z-index: 1000;
   background-color: white;
   transition: transform 0.3s ease-in-out; /* Add smooth transition */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better visibility */
 }
 
 /* Additional styles for header links */
@@ -36,6 +35,7 @@ header a:hover {
 
 #section1 h1 {
   margin: 0;
+  
 }
 
 #section2 {
@@ -102,4 +102,46 @@ header a:hover {
   /* Show the mobile footer header on mobile devices */
   .mobile-header {
 display: flex;  }
+}
+
+/* General styles for the header */
+
+
+/* Styles for the logo */
+.logo-container {
+  position: relative;
+  width: 30px; /* Adjust the width based on your design */
+  height: 30px; /* Adjust the height based on your design */
+  margin-right: 15px; /* Spacing between the logo and text */
+  display: inline-block;
+}
+
+.circle {
+  position: absolute;
+  width: 12px; /* Size of each circle */
+  height: 12px;
+  background-color: rgb(38, 38, 167); /* Blue color */
+  border-radius: 50%;
+}
+
+.circle1 {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.circle2 {
+  bottom: 0;
+  left: 0;
+}
+
+.circle3 {
+  bottom: 0;
+  right: 0;
+}
+
+/* Additional styles to adjust text alignment with logo */
+.header-section #section1 {
+  display: flex;
+  align-items: center;
 }
