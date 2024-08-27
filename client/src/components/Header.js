@@ -1,19 +1,21 @@
 // src/components/Header.js
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import Cookies from 'js-cookie'; // Import the js-cookie library
 import './component-styles/Header.css';
 
 const Header = ({ onEditClick }) => {
   const location = useLocation();
-  const isLoginPage = location.pathname === '/login';
+  const userUUID = Cookies.get('user_uuid'); // Get the user_uuid cookie
 
-  // Determine the current path to highlight the active link
-  const getLinkClass = (path) => (location.pathname === path ? 'active-link' : '');
+  // Determine if the current path matches either /login or /profile
+  const getLinkClass = (path1, path2) => 
+    (location.pathname === path1 || location.pathname === path2) ? 'active-link' : '';
 
   return (
     <>
       {/* Main Header */}
-      <header className={isLoginPage ? 'header-black' : ''}>
+      <header>
         <div className="header-section" id="section1">
           <div className="logo-container">
             <div className="circle circle1"></div>
@@ -33,13 +35,16 @@ const Header = ({ onEditClick }) => {
           <nav>
             <a href="#edit" onClick={(e) => { e.preventDefault(); onEditClick(); }}>edit</a>
             <Link to="/upload" className={getLinkClass('/upload')}>add</Link>
-            <Link to="/profile" className={getLinkClass('/profile')}>profile</Link>
+            {/* Conditionally render "Login" or "Profile" based on the presence of user_uuid */}
+            <Link to={userUUID ? "/profile" : "/login"} className={getLinkClass('/login', '/profile')}>
+              {userUUID ? "profile" : "login"}
+            </Link>
           </nav>
         </div>
       </header>
 
       {/* Mobile Footer Header */}
-      <div className={isLoginPage ? 'mobile-header header-black' : 'mobile-header'}>
+      <div className="mobile-header">
         <nav>
           <Link to="/home" className={getLinkClass('/home')}>home</Link>
           <Link to="/search" className={getLinkClass('/search')}>search</Link>
