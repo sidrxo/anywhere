@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './component-styles/HomeBoard.css';
 
-const HomeBoard = ({ numColumns}) => {
+const HomeBoard = ({ numColumns }) => {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
@@ -12,6 +12,11 @@ const HomeBoard = ({ numColumns}) => {
         const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/images`);
         const fetchedImages = response.data;
         setImages(shuffleArray(fetchedImages));
+        // Restore scroll position after images load
+        const savedScrollPosition = localStorage.getItem('scrollPosition');
+        if (savedScrollPosition) {
+          window.scrollTo(0, parseInt(savedScrollPosition, 10));
+        }
       } catch (error) {
         console.error('Error fetching images:', error);
       }
@@ -19,6 +24,10 @@ const HomeBoard = ({ numColumns}) => {
 
     fetchImages();
   }, []);
+
+  const handleImageClick = () => {
+    localStorage.setItem('scrollPosition', window.scrollY);
+  };
 
   // Function to shuffle the images array
   const shuffleArray = (array) => {
@@ -36,7 +45,7 @@ const HomeBoard = ({ numColumns}) => {
     >
       {images.map((image) => (
         <div key={image.identifier} className="home-card">
-          <Link to={`/image/${image.identifier}`}>
+          <Link to={`/image/${image.identifier}`} onClick={handleImageClick}>
             <img src={image.url} alt="User Upload" />
           </Link>
         </div>

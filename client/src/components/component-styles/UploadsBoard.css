@@ -2,6 +2,8 @@
   column-count: var(--num-columns);
   box-sizing: border-box;
   overflow: hidden; /* Prevents scrolling issues within the container */
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .uploads-card {

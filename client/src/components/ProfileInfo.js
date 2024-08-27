@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import UploadsBoard from './UploadsBoard'; // Import UploadsBoard
 import { useNavigate } from 'react-router-dom';
 import './Profile.css'; // Import the CSS file for styling
 
@@ -43,16 +42,11 @@ const Profile = () => {
     if (loading) return <p>Loading...</p>;
 
     return (
-        <div className="profile-page">
             <div className="profile-details">
                 <p><strong></strong> {user.name}</p>
                 <p><strong></strong> {user.email}</p>
                 <button onClick={handleLogout} className="logout-button">Logout</button>
-                <div className="uploads-container">
-                    <UploadsBoard numColumns={3} />
-                </div>
             </div>
-        </div>
     );
 };
 

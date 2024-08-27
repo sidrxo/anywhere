@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import HomeBoard from '../components/HomeBoard';
+
 import './page-styles/Home.css';
 
 axios.defaults.baseURL = 'http://localhost:5000'; // Your API base URL

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Search from '../components/Search'; // Adjust the path as needed
-import SearchBoard from '../components/SearchBoard'; // Adjust the path as needed
 import './page-styles/SearchPage.css';
 
 const SearchPage = () => {
@@ -13,7 +12,6 @@ const SearchPage = () => {
   return (
     <div className="search-container">
       <Search onSearchResults={handleSearchResults} />
-      <SearchBoard images={searchResults} numColumns={4} /> {/* Adjust numColumns as needed */}
     </div>
   );
 };

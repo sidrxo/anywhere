@@ -1,14 +1,28 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './component-styles/PageEditor.css';
 
-const PageEditor = ({ isVisible, onClose, numColumns, setNumColumns }) => {
+const PageEditor = ({ isVisible, onClose, setNumColumns }) => {
+  const [numColumns, setLocalNumColumns] = useState(6); // Default value
+
   const editorRef = useRef(null);
 
+  // Effect to initialize numColumns from local storage on load
+  useEffect(() => {
+    const savedColumns = localStorage.getItem('numColumns');
+    if (savedColumns) {
+      setLocalNumColumns(Number(savedColumns));
+      setNumColumns(Number(savedColumns)); // Ensure parent state is also updated
+    }
+  }, [setNumColumns]);
+
   const handleColumnsChange = (event) => {
-    setNumColumns(event.target.value);
+    const newNumColumns = Number(event.target.value);
+    setLocalNumColumns(newNumColumns);
+    setNumColumns(newNumColumns); // Update parent state
+    localStorage.setItem('numColumns', newNumColumns); // Store in local storage
   };
 
-  // Event listener to handle ESC key press
+  // Event listener to handle ESC key press and click outside
   useEffect(() => {
     const handleEscKey = (event) => {
       if (event.key === 'Escape') {

@@ -228,21 +228,25 @@ app.get('/images', async (req, res) => {
   }
 });
 
-app.get('/images/user', async (req, res) => {
-  const userUuid = req.query.user_uuid; // Read user_uuid from query parameters
-
-  if (!userUuid) {
-    return res.status(400).send('User UUID is required.');
+// Route to fetch all images for the authenticated user
+app.get('/imageuuid', async (req, res) => {
+  // Extract the user_uuid from cookies
+  const user_uuid = req.cookies.user_uuid;
+  if (!user_uuid) {
+    return res.status(401).send('User not authenticated.');
   }
 
   try {
-    const images = await Image.find({ userUuid }); // Find images by userUuid
+    // Find images that belong to the user
+    const images = await Image.find({ user_uuid });
     res.status(200).json(images);
   } catch (error) {
     console.error('Error fetching images:', error.message);
     res.status(500).send('Error fetching images.');
   }
 });
+
+
 
 // Route to get an image by identifier
 app.get('/image/:identifier', async (req, res) => {

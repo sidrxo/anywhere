@@ -1,26 +1,14 @@
-.login-link {
-    text-decoration: none;
-    color: rgb(38, 38, 167);
-    font-weight: bold;
-}
-
 .profile-details {
     width: 100%;
     max-width: 400px; /* Consistent max width */
     background-color: white;
-    padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: left;
+    text-align: center;
 }
 
-.profile-details p {
-    margin: 10px 0;
-    font-size: 16px;
-}
 
 .logout-button {
-    width: 100%;
+    width: 60%;
     padding: 10px;
     background-color: #191919;
     color: white;

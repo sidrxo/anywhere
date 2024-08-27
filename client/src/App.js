@@ -12,9 +12,9 @@ import AdminDeletePage from './pages/AdminDeletePage';
 import './App.css';
 import ChromaPage from './pages/ChromaPage.js';
 import LoginPage from './pages/LoginPage';
-import Profile from './components/Profile.js';
 import LandingPage from './pages/LandingPage.js';
 import ProfilePage from './pages/ProfilePage.js';
+import UploadsBoard from './components/UploadsBoard.js';
 
 
 
@@ -58,10 +58,11 @@ function App() {
             <Route path="/admin/upload" element={<AdminUploadPage />} />
             <Route path="/admin/delete" element={<AdminDeletePage />} />       
             <Route path="login" element={<LoginPage />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/profilepage" element={<ProfilePage />} />
-
-            <Route path="landing" element={<LandingPage />} />       
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="landing" element={<LandingPage />} />     
+            <Route path="/uploads" element={<UploadsBoard />} />       
+  
+            
            </Routes>
       </div>
     </Router>

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './component-styles/Search.css'; // Import the CSS file for Search
+import { Link } from 'react-router-dom';
+
 
 const Search = () => {
   const [images, setImages] = useState([]);
@@ -46,8 +48,9 @@ const Search = () => {
       <div className="search-board">
         {filteredImages.map((image) => (
           <div key={image._id} className="search-card">
+          <Link to={`/image/${image.identifier}`}>
             <img src={image.url} alt="User Upload" />
-          </div>
+          </Link>          </div>
         ))}
       </div>
     </div>
