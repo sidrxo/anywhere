@@ -6,14 +6,12 @@
   justify-content: center;
   height: 100vh;
   text-align: center;
-  background-color: #f0f0f0; /* Light background color */
   transition: opacity 0.75s ease-out; /* Duration and timing function for the fade-in effect */
 }
 
 
 .upload-page h1 {
   font-size: 2rem;
-  color: rgb(38, 38, 167); /* Matching color scheme */
   margin-bottom: 20px;
 }
 
@@ -27,9 +25,9 @@
 }
 
 .file-input {
+  border-width: 3px;
   margin-bottom: 10px;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
+  padding: 2rem;
   border-radius: 8px;
   font-size: 1rem;
   width: 100%; /* Full width to match the input styles from LoginPage */

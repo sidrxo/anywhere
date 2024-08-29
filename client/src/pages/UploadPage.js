@@ -1,44 +1,69 @@
 import React, { useState } from 'react';
-import ProgressBar from '../components/ProgressBar.js'; // Import the ProgressBar component
-import './page-styles/UploadPage.css'; // Import your CSS file
+import axios from 'axios';
+import './page-styles/UploadPage.css';
 
 const UploadPage = () => {
-    const [progress, setProgress] = useState(0); // State for the progress bar
-    const [uploading, setUploading] = useState(false); // State to track uploading status
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [description, setDescription] = useState('');
+  const [message, setMessage] = useState('');
 
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        if (!file) return;
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+  };
 
-        setUploading(true);
-        // Simulate file upload with a timeout
-        const simulateUpload = setInterval(() => {
-            setProgress((prevProgress) => {
-                if (prevProgress === 100) {
-                    clearInterval(simulateUpload);
-                    setUploading(false);
-                    return 100;
-                }
-                return prevProgress + 10;
-            });
-        }, 300); // Update progress every 300ms
-    };
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
 
-    return (
-        <div className="upload-page">
-            <h1>Upload Your Files</h1>
-            <div className="upload-form">
-                <input type="file" className="file-input" onChange={handleFileChange} />
-                {uploading && <ProgressBar progress={progress} />}
-                <button className="upload-button" disabled={uploading}>
-                    {uploading ? 'Uploading...' : 'Upload'}
-                </button>
-                <div className="message">
-                    {uploading ? 'Please wait while your file is being uploaded.' : 'Select a file to upload.'}
-                </div>
-            </div>
-        </div>
-    );
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!selectedFile) {
+      setMessage('Please select a file first.');
+      return;
+    }
+  
+    const formData = new FormData();
+    formData.append('image', selectedFile);
+    formData.append('description', description);
+  
+    try {
+      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/upload`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        withCredentials: true, // Ensure cookies are sent with the request
+      });
+      setMessage('File uploaded successfully!');
+      setSelectedFile(null);
+      setDescription('');
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      setMessage('Error uploading file.');
+    }
+  };
+
+  return (
+    <div className="upload-page">
+      <h1>Upload Page</h1>
+      <form onSubmit={handleSubmit} className="upload-form">
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+          className="file-input"
+        />
+        <input
+          type="text"
+          placeholder="Description"
+          value={description}
+          onChange={handleDescriptionChange}
+          className="description-input"
+        />
+        <button type="submit" className="upload-button">Upload</button>
+        {message && <p className="message">{message}</p>}
+      </form>
+    </div>
+  );
 };
 
 export default UploadPage;

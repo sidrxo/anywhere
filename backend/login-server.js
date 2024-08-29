@@ -8,10 +8,14 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const User = require('./models/User');
 const cors = require('cors'); // Import cors
+const bcrypt = require('bcrypt');
+const router = express.Router();
+
 
 require('dotenv').config();
 
 const app = express();
+app.use(express.json()); // Middleware to parse JSON bodies
 
 
 const allowedOrigins = [
@@ -161,6 +165,94 @@ app.use((err, req, res, next) => {
     console.error('Error:', err);
     res.status(500).send('Something went wrong!');
 });
+
+app.post('/auth/check-email', async (req, res) => {
+    const { email } = req.body;
+  
+    try {
+      const user = await User.findOne({ email });
+      if (user) {
+        res.json({ exists: true });
+      } else {
+        res.json({ exists: false });
+      }
+    } catch (error) {
+      console.error('Error checking email:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
+
+// Route to check if the email is already registered
+
+// Route to handle email sign-in
+
+
+
+// Sign-Up Route
+app.post('/auth/sign-up', async (req, res) => {
+    const { firstName, lastName, email, password } = req.body;
+  
+    if (!firstName || !lastName || !email || !password) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+  
+    try {
+      // Check if the email is already in use
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+        return res.status(400).json({ error: 'Email is already registered' });
+      }
+  
+      // Hash the password
+      const hashedPassword = await bcrypt.hash(password, 10);
+  
+      // Create a new user
+      const newUser = new User({
+        firstName,
+        lastName,
+        email,
+        password: hashedPassword,
+        uuid: uuid.v4() // Explicitly set uuid
+      });
+  
+      await newUser.save();
+      res.status(201).json({ message: 'Sign-up successful' });
+    } catch (error) {
+      console.error('Error during sign-up:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
+  // Login Route
+  app.post('/auth/login', async (req, res) => {
+    const { email, password } = req.body;
+  
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required' });
+    }
+  
+    try {
+      const user = await User.findOne({ email });
+      if (!user) {
+        return res.status(401).json({ error: 'Invalid email or password' });
+      }
+  
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.status(401).json({ error: 'Invalid email or password' });
+      }
+  
+      // Add session management or token generation here if needed
+      res.json({ message: 'Login successful' });
+    } catch (error) {
+      console.error('Error logging in:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
+
+// Existing routes like Google OAuth...
 
 
 

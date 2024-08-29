@@ -61,4 +61,15 @@
     color: #333;
     align-self: flex-start; /* Align label to the left */
   }
-  
+  .login-container {
+    position: relative;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide-off {
+    transform: translateX(-100%);
+}
+
+.slide-on {
+    transform: translateX(0);
+}
