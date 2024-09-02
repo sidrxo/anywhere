@@ -2,7 +2,7 @@
 .chroma-bar {
     display: flex;
     width: 80vw;
-    height: 20px; /* Adjust the height as needed */
+    height: 40px; /* Adjust the height as needed */
     overflow: hidden; /* Hide any overflow from the rotation */
     transform: skewX(-50deg); /* Slant the sections */
 border-radius: 30px;

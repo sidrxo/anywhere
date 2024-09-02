@@ -19,11 +19,6 @@
   object-fit: cover; /* Optional: ensures images cover the card area without distortion */
 }
 
-.home-board-container {
-  overflow: auto; /* Allow scrolling within the container */
-  flex: 1; /* Ensure it takes up remaining space below the header */
-}
-
 /* Media query for mobile devices */
 @media (max-width: 768px) {
   :root {

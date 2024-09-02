@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './component-styles/PageEditor.css';
+import { useDarkMode } from '../context/DarkModeContext'; // Import the dark mode context
 
 const PageEditor = ({ isVisible, onClose, setNumColumns }) => {
   const [numColumns, setLocalNumColumns] = useState(6); // Default value
-
   const editorRef = useRef(null);
+  const { isDarkMode, toggleDarkMode } = useDarkMode(); // Use dark mode context
 
   // Effect to initialize numColumns from local storage on load
   useEffect(() => {
@@ -47,7 +48,7 @@ const PageEditor = ({ isVisible, onClose, setNumColumns }) => {
   }, [onClose]);
 
   return (
-    <div className={`page-editor ${isVisible ? 'open' : ''}`} ref={editorRef}>
+    <div className={`page-editor ${isVisible ? 'open' : ''} ${isDarkMode ? 'dark-mode' : ''}`} ref={editorRef}>
       <button className="close" onClick={onClose}>×</button>
       <div className="editor-section">
         <h2>size</h2>
@@ -59,6 +60,16 @@ const PageEditor = ({ isVisible, onClose, setNumColumns }) => {
           onChange={handleColumnsChange}
         />
       </div>
+      {/* Dark Mode Toggle Button */}
+      <button
+        className="dark-mode-toggle"
+        onClick={toggleDarkMode}
+      >
+        <img
+          src="https://www.svgrepo.com/show/79251/crescent-moon.svg"
+          alt="Toggle Dark Mode"
+        />
+      </button>
     </div>
   );
 };

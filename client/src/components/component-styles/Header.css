@@ -48,7 +48,8 @@ header a:hover {
 }
 
 #section3 {
-  justify-content: center;
+  justify-content: right;
+  padding-right: 3rem;
 }
 
 #section3 nav {
@@ -152,4 +153,17 @@ display: flex;  }
 
 nav a.active-link {
   opacity: 1; /* Full opacity for the active link */
+}
+
+header.dark-mode {
+  background-color: #191919; /* Dark mode background */
+  color: #f1f1f1; /* Dark mode text color */
+}
+
+header.dark-mode a {
+  color: #f1f1f1; /* Light text for links in dark mode */
+}
+
+header.dark-mode a.active-link {
+  opacity: 1; /* Full opacity for active link in dark mode */
 }

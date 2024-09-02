@@ -1,21 +1,22 @@
-// src/components/Header.js
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie'; // Import the js-cookie library
+import { useDarkMode } from '../context/DarkModeContext'; // Import the dark mode context
 import './component-styles/Header.css';
 
 const Header = ({ onEditClick }) => {
   const location = useLocation();
   const userUUID = Cookies.get('user_uuid'); // Get the user_uuid cookie
+  const { isDarkMode, toggleDarkMode } = useDarkMode(); // Use dark mode context
 
   // Determine if the current path matches either /login or /profile
-  const getLinkClass = (path1, path2) => 
+  const getLinkClass = (path1, path2) =>
     (location.pathname === path1 || location.pathname === path2) ? 'active-link' : '';
 
   return (
     <>
       {/* Main Header */}
-      <header>
+      <header className={isDarkMode ? 'dark-mode' : ''}>
         <div className="header-section" id="section1">
           <div className="logo-container">
             <div className="circle circle1"></div>
@@ -44,12 +45,11 @@ const Header = ({ onEditClick }) => {
       </header>
 
       {/* Mobile Footer Header */}
-      <div className="mobile-header">
+      <div className={`mobile-header ${isDarkMode ? 'dark-mode' : ''}`}>
         <nav>
           <Link to="/home" className={getLinkClass('/home')}>home</Link>
           <Link to="/search" className={getLinkClass('/search')}>search</Link>
-          <Link to="/myuploadspage" className={getLinkClass('/myuploadspage')}>my pins</Link>
-          <Link to="/upload" className={getLinkClass('/upload')}>add</Link>
+
         </nav>
       </div>
     </>

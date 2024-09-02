@@ -1,12 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Login from '../components/Login';
-
 import './page-styles/LoginPage.css';
+
+const roles = [
+  "product designers.",
+  "graphic designers.",
+  "UX/UI designers.",
+  "web developers.",
+  "art directors.",
+  "visual artists."
+];
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
-  const [emailExists, setEmailExists] = useState(null); // `null` means no check done yet
+  const [emailExists, setEmailExists] = useState(null);
+  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
+  const [isSliding, setIsSliding] = useState(false);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -22,14 +32,30 @@ const LoginPage = () => {
     }
   };
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsSliding(true);
+      setTimeout(() => {
+        setCurrentRoleIndex((prevIndex) => (prevIndex + 1) % roles.length);
+        setIsSliding(false);
+      }, 500); // Duration of the slide transition
+    }, 1300); // Rotate every 3 seconds
+
+    return () => clearInterval(interval); // Clean up on component unmount
+  }, []);
+
   return (
     <div className="login-page">
       <div className="login-container">
         <h3>welcome to chroma.</h3>
-        <p className="or-text">the image library for product designers</p>
+        <p className="or-text">
+          <span className="fixed-text">the image library for&nbsp;</span>
+          <span className={`role-text ${isSliding ? 'slide-off' : 'slide-on'}`}>
+            {roles[currentRoleIndex]}
+          </span>
+        </p>
         <Login />
         {!emailExists && emailExists !== null ? (
-          // Sign-up form if email is not registered
           <div className="login-form">
             <h4>Sign Up</h4>
             <label htmlFor="first-name">First Name</label>
@@ -49,7 +75,6 @@ const LoginPage = () => {
             <button className="email-login-button">Sign Up</button>
           </div>
         ) : emailExists === true ? (
-          // Login form if email is registered
           <div className="login-form">
             <h4>Login</h4>
             <label className="email-label" htmlFor="email">Email</label>
@@ -65,7 +90,6 @@ const LoginPage = () => {
             <button className="email-login-button">Login</button>
           </div>
         ) : (
-          // Email input form
           <div className="login-form">
             <label className="email-label" htmlFor="email">Email</label>
             <input

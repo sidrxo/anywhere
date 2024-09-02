@@ -7,11 +7,11 @@ const LandingPage = () => {
     <div className="landing-page">
       <div className="slogan-container">
         <h1 className="slogan">
-          Welcome a new 
+          A new 
           <br />
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;standard for image sharing
           <br />
-          collaboration       
+          collaboration  and discovery.     
            </h1>
       </div>
     </div>

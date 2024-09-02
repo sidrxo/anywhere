@@ -15,6 +15,8 @@ import LoginPage from './pages/LoginPage';
 import LandingPage from './pages/LandingPage.js';
 import ProfilePage from './pages/ProfilePage.js';
 import UploadsBoard from './components/UploadsBoard.js';
+import { DarkModeProvider, useDarkMode } from './context/DarkModeContext';
+
 
 
 
@@ -38,6 +40,8 @@ function App() {
   };
 
   return (
+    <DarkModeProvider>
+
     <Router>
       <div className="app" style={style}>
         <Header onEditClick={handleEditClick} />
@@ -59,13 +63,13 @@ function App() {
             <Route path="/admin/delete" element={<AdminDeletePage />} />       
             <Route path="login" element={<LoginPage />} />
             <Route path="/profile" element={<ProfilePage />} />
-            <Route path="landing" element={<LandingPage />} />     
+            <Route path="/landing" element={<LandingPage />} />     
             <Route path="/uploads" element={<UploadsBoard />} />       
-  
-            
-           </Routes>
+            </Routes>
       </div>
     </Router>
+    </DarkModeProvider>
+
   );
 }
 
