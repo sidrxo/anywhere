@@ -5,7 +5,6 @@ import { useDarkMode } from '../context/DarkModeContext'; // Import dark mode co
 
 import './page-styles/Home.css';
 
-axios.defaults.baseURL = 'http://localhost:5000'; // Your API base URL
 axios.defaults.withCredentials = true; // Ensure cookies are included in requests
 
 const Home = ({ numColumns }) => {
@@ -15,8 +14,8 @@ const Home = ({ numColumns }) => {
   const [hideHeader, setHideHeader] = useState(false); // Track if header should be hidden
   const pinsRef = useRef(null); // Reference to the mypins-container
 
-  const scrollThreshold = 10; // Threshold to start hiding the header
-  const hideThreshold = 0; // Extra threshold for scrolling down
+  const scrollThreshold = 40; // Threshold to start hiding the header
+  const hideThreshold = 5; // Extra threshold for scrolling down
 
   useEffect(() => {
     const fetchImages = async () => {

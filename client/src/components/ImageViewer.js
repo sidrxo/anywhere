@@ -3,31 +3,35 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './component-styles/ImageViewer.css';
 
-const ImageViewer = () => {
-  const { identifier } = useParams();
+const ImageViewer = ({ identifier, onClose }) => {
   const [image, setImage] = useState(null);
   const [infoVisible, setInfoVisible] = useState(false);
   const [menuShifted, setMenuShifted] = useState(false);
+  const [error, setError] = useState(null);
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
   useEffect(() => {
     const fetchImage = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/image/${identifier}`);
         setImage(response.data);
+        setError(null);
       } catch (error) {
         console.error('Error fetching image:', error);
+        setError('Image not found.');
       }
     };
 
-    fetchImage();
+    if (identifier) {
+      fetchImage();
+    }
   }, [identifier]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') {
-        navigate(-1);
+        onClose();
       }
     };
 
@@ -39,8 +43,9 @@ const ImageViewer = () => {
   }, [navigate]);
 
   const handleClose = () => {
-    navigate(-1);
+    onClose();
   };
+
 
   const handleInfo = (e) => {
     e.stopPropagation();
@@ -55,28 +60,31 @@ const ImageViewer = () => {
   const handleButtonClick = (e) => {
     e.stopPropagation();
   };
+  
 
   return (
     <div className={`image-viewer-overlay ${image ? 'visible' : ''}`} onClick={handleButtonClick}>
-      <div className={`image-viewer-menu ${menuShifted ? 'shifted' : ''}`} onClick={handleButtonClick}>
-        <button className="image-viewer-save-button" onClick={handleSave}>save</button>
-        <button className="image-viewer-info-button" onClick={handleInfo}>info</button>
-        <button className="image-viewer-close-button" onClick={handleClose}>close</button>
-      </div>
-      <div className={`image-viewer-content ${infoVisible ? 'shifted' : ''}`} onClick={(e) => e.stopPropagation()}>
-        {image ? (
-          <img src={image.url} alt="Enlarged View" />
-        ) : (
-          <p>Loading...</p>
+    <div className={`image-viewer-menu ${menuShifted ? 'shifted' : ''}`} onClick={handleButtonClick}>
+      <button className="image-viewer-save-button" onClick={handleSave}>save</button>
+      <button className="image-viewer-info-button" onClick={handleInfo}>info</button>
+      <button className="image-viewer-close-button" onClick={handleClose}>close</button>
+    </div>
+    <div className={`image-viewer-content ${infoVisible ? 'shifted' : ''}`} onClick={(e) => e.stopPropagation()}>
+      {image ? (
+        <img src={image.url} alt="Enlarged View" />
+      ) : (
+        <p>Loading...</p>
         )}
       </div>
-      <div className={`info-overlay ${infoVisible ? 'visible' : ''}`}>
-        <h2>Image Information</h2>
-        <p><strong>Identifier:</strong> {identifier}</p>
-        <p><strong>URL:</strong> {image?.url}</p>
-        <p><strong>Description:</strong> {image?.description || 'No description available'}</p>
-        <p><strong>Upload Date:</strong> {image?.uploadDate ? new Date(image.uploadDate).toLocaleDateString() : 'No date available'}</p> 
-      </div>
+      {image && (
+        <div className={`info-overlay ${infoVisible ? 'visible' : ''}`}>
+          <h2>Image Information</h2>
+          <p><strong>Identifier:</strong> {identifier}</p>
+          <p><strong>URL:</strong> {image.url}</p>
+          <p><strong>Description:</strong> {image.description || 'No description available'}</p>
+          <p><strong>Upload Date:</strong> {image.uploadDate ? new Date(image.uploadDate).toLocaleDateString() : 'No date available'}</p>
+        </div>
+      )}
     </div>
   );
 };
