@@ -1,41 +1,64 @@
+/* src/pages/SearchPage.css */
 .search-container {
-    box-sizing: border-box;
-    height: 100vh; /* Adjust this based on header height */
-    overflow: auto; /* Hides both vertical and horizontal scrollbars */
-    animation: fadeIn 0.75s ease-out;
-    padding-left: 1rem;
-    padding-right: 1rem;
-  
+  box-sizing: border-box;
+  height: 100vh;
+  overflow: auto;
+  animation: fadeIn 0.75s ease-out;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background-color: white; /* Initial white background */
+  color: black; /* Initial black text color */
+  transition: background-color 0.75s ease-out, color 0.75s ease-out; /* Smooth transition */
+}
+
+.search-container::-webkit-scrollbar {
+  display: none;
+}
+
+.search-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.gradient-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50px; /* Adjust height for desired fade length */
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+  z-index: 1;
+  animation: fadeInGradient 0.75s ease-out; /* Fade in the gradient */
+}
+
+/* Keyframes for fade-in effect */
+@keyframes fadeIn {
+  0% {
+    background-color: white;
+    opacity: 0;
   }
-  
-  .search-container::-webkit-scrollbar {
-    display: none; /* Hides the scrollbar for Webkit browsers */
+  100% {
+    background-color: transparent;
+    opacity: 1;
   }
-  
-  .search-container {
-    -ms-overflow-style: none; /* Hides scrollbar for Internet Explorer and Edge */
-    scrollbar-width: none; /* Hides scrollbar for Firefox */
+}
+
+/* Keyframes for gradient fade-in */
+@keyframes fadeInGradient {
+  0% {
+    opacity: 0;
   }
-  
-  .gradient-fade {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 50px; /* Adjust height for desired fade length */
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
-    z-index: 1; /* Ensure it's above the page content but below other overlays */
+  100% {
+    opacity: 1;
   }
-  
-  /* Keyframes for fade-in effect */
-  @keyframes fadeIn {
-    0% {
-      background-color: white;
-      opacity: 0;
-    }
-    100% {
-      background-color: transparent;
-      opacity: 1;
-    }
-  }
-  
+}
+
+/* Dark mode styles */
+.search-container.dark-mode {
+  background-color: #191919; /* Transition to dark mode background */
+  color: #f1f1f1; /* Transition to dark mode text color */
+}
+
+.search-container.dark-mode .gradient-fade {
+  background: linear-gradient(to bottom, rgba(25, 25, 25, 0) 0%, rgba(25, 25, 25, 1) 100%);
+}

@@ -1,20 +1,28 @@
 /* src/pages/ChromaPage.css */
 .chroma-page {
-    margin-top: 40vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    animation: fadeIn 0.75s ease-out;
+  height: 60vh;
+  padding-top: 40vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 0.75s ease-out;
+  background-color: white; /* Default light mode background */
+  color: black; /* Default light mode text color */
+}
 
+@keyframes fadeIn {
+  0% {
+    background-color: white;
+    opacity: 0;
   }
-  
-  @keyframes fadeIn {
-    0% {
-      background-color: white;
-      opacity: 0;
-    }
-    100% {
-      background-color: transparent;
-      opacity: 1;
-    }
+  100% {
+    background-color: transparent;
+    opacity: 1;
   }
+}
+
+/* Dark mode styles */
+.chroma-page.dark-mode {
+  background-color: #191919; /* Dark mode background */
+  color: #f1f1f1; /* Dark mode text color */
+}
