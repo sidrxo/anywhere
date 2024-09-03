@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import './component-styles/ImageViewer.css';
 
@@ -9,7 +9,7 @@ const ImageViewer = ({ identifier, onClose }) => {
   const [menuShifted, setMenuShifted] = useState(false);
   const [error, setError] = useState(null);
 
-    const navigate = useNavigate();
+  const { identifier: urlIdentifier } = useParams();
 
   useEffect(() => {
     const fetchImage = async () => {
@@ -17,6 +17,8 @@ const ImageViewer = ({ identifier, onClose }) => {
         const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/image/${identifier}`);
         setImage(response.data);
         setError(null);
+        // Update the URL in the address bar
+        window.history.pushState(null, '', `/image/${identifier}`);
       } catch (error) {
         console.error('Error fetching image:', error);
         setError('Image not found.');
@@ -26,6 +28,11 @@ const ImageViewer = ({ identifier, onClose }) => {
     if (identifier) {
       fetchImage();
     }
+
+    // Cleanup function to reset the URL when the component unmounts
+    return () => {
+      window.history.pushState(null, '', '/');
+    };
   }, [identifier]);
 
   useEffect(() => {
@@ -40,12 +47,11 @@ const ImageViewer = ({ identifier, onClose }) => {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [navigate]);
+  }, [onClose]);
 
   const handleClose = () => {
     onClose();
   };
-
 
   const handleInfo = (e) => {
     e.stopPropagation();
@@ -60,20 +66,19 @@ const ImageViewer = ({ identifier, onClose }) => {
   const handleButtonClick = (e) => {
     e.stopPropagation();
   };
-  
 
   return (
     <div className={`image-viewer-overlay ${image ? 'visible' : ''}`} onClick={handleButtonClick}>
-    <div className={`image-viewer-menu ${menuShifted ? 'shifted' : ''}`} onClick={handleButtonClick}>
-      <button className="image-viewer-save-button" onClick={handleSave}>save</button>
-      <button className="image-viewer-info-button" onClick={handleInfo}>info</button>
-      <button className="image-viewer-close-button" onClick={handleClose}>close</button>
-    </div>
-    <div className={`image-viewer-content ${infoVisible ? 'shifted' : ''}`} onClick={(e) => e.stopPropagation()}>
-      {image ? (
-        <img src={image.url} alt="Enlarged View" />
-      ) : (
-        <p>Loading...</p>
+      <div className={`image-viewer-menu ${menuShifted ? 'shifted' : ''}`} onClick={handleButtonClick}>
+        <button className="image-viewer-save-button" onClick={handleSave}>Save</button>
+        <button className="image-viewer-info-button" onClick={handleInfo}>Info</button>
+        <button className="image-viewer-close-button" onClick={handleClose}>Close</button>
+      </div>
+      <div className={`image-viewer-content ${infoVisible ? 'shifted' : ''}`} onClick={(e) => e.stopPropagation()}>
+        {image ? (
+          <img src={image.url} alt="Enlarged View" />
+        ) : (
+          <p>Loading...</p>
         )}
       </div>
       {image && (
