@@ -1,30 +1,51 @@
+/* src/page-styles/LandingPage.css */
 
 .landing-page {
-  width: 100vw;
-  background-color: #000; /* Black background */
-  display: flex;
-  align-items: flex-start; /* Align to the top */
-  justify-content: flex-start; /* Align to the left */
-  overflow: hidden;
-  background-color: white;
-   animation: fadeIn 1.5s ease-in-out forwards; /* Fade in animation */
+  position: relative;
+  text-align: center;
+  padding: 50px; /* Adjust padding as needed */
+}
 
+.circle2-container {
+  position: absolute;
+  top: 20%; /* Adjust positioning as needed */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px; /* Adjust width as needed */
+  height: 200px; /* Adjust height as needed */
+}
+
+.circle4 {
+  position: absolute;
+  width: 100px; /* Adjust size as needed */
+  height: 100px; /* Adjust size as needed */
+  border-radius: 50%;
+}
+
+#circle5 {
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+#circle6 {
+  bottom: 0;
+  left: 0;
+  transform: translate(0, 50%);
+}
+
+#circle6 {
+  bottom: 0;
+  right: 0;
+  transform: translate(0, 50%);
 }
 
 .slogan-container {
-  margin-top: 20vh; /* Slightly down from the top */
-  margin-left: 5vh;
-  background-color: #000; /* Black background */
-  animation: fadeIn 1.5s ease-in-out forwards; /* Fade in animation */
-
-
+  position: relative;
+  z-index: 1; /* Ensure this appears above the circles */
 }
 
 .slogan {
-  font-size: 48px; /* Large font size */
-  color: #fff; /* White text color */
-  font-weight: 800;
-  line-height: 1.5; /* Line height for the multi-line slogan */
-  color: black;
+  font-size: 24px; /* Adjust font size as needed */
+  line-height: 1.5;
 }
-

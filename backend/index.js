@@ -7,6 +7,10 @@ const cors = require('cors');
 const FormData = require('form-data');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const cookieParser = require('cookie-parser');
+const crypto = require('crypto'); // To create a deterministic shuffle
+const seedrandom = require('seedrandom'); // Import the seedrandom library
+const sharp = require('sharp');
+
 
 
 const app = express();
@@ -167,18 +171,64 @@ app.post('/upload', upload.single('image'), async (req, res) => {
 
 
 
+// Add this route to your existing Express routes
+
+// Route to fetch a random image
+app.get('/random-image', async (req, res) => {
+  try {
+    // Find all images
+    const images = await Image.find();
+    
+    if (images.length === 0) {
+      return res.status(404).send('No images available.');
+    }
+
+    // Pick a random image
+    const randomIndex = Math.floor(Math.random() * images.length);
+    const randomImage = images[randomIndex];
+    
+    res.status(200).json(randomImage);
+  } catch (error) {
+    console.error('Error fetching random image:', error.message);
+    res.status(500).send('Error fetching random image.');
+  }
+});
+
+// Function to compress an image
+const compressImage = async (buffer) => {
+  return await sharp(buffer)
+    .resize({ 
+      width: 1920, // Resize the image to a maximum width (optional)
+      height: 1080,
+      fit: sharp.fit.inside,
+      withoutEnlargement: true,
+    })
+    .jpeg({ quality: 80 }) // Compress to 80% quality
+    .toBuffer();
+};
+
 
 // Route to handle multiple image uploads
-app.post('/upload-multiple', upload.array('images'), async (req, res) => {
-  if (!req.files || req.files.length === 0) return res.status(400).send('No files uploaded.');
+app.post('/upload-multiple', upload.array('images', 10), async (req, res) => {
+  if (!req.files || req.files.length === 0) {
+    return res.status(400).send('No files uploaded.');
+  }
+
+  // Extract the user_uuid from cookies
+  const user_uuid = req.cookies.user_uuid;
+  if (!user_uuid) {
+    return res.status(401).send('User not authenticated.');
+  }
 
   try {
-    const imageUrls = [];
-    const identifiers = [];
+    const uploadedImages = [];
 
     for (const file of req.files) {
+      // Compress the image
+      const compressedImage = await compressImage(file.buffer);
+
       const form = new FormData();
-      form.append('image', file.buffer, { filename: file.originalname });
+      form.append('image', compressedImage, { filename: file.originalname });
       form.append('key', IMG_API_KEY);
 
       const response = await axios.post(IMG_URL, form, {
@@ -195,27 +245,31 @@ app.post('/upload-multiple', upload.array('images'), async (req, res) => {
       const imgURL = data.data.url;
       const identifier = await generateUniqueIdentifier();
 
-      // Get tags from Computer Vision API
-      const visionResponse = await fetchImageTags(imgURL);
-      const tags = visionResponse.tags.map(tag => tag.name);
+      // Get tags from Azure Computer Vision API
+      const tags = await analyzeImage(imgURL);
 
+      // Create a new Image document in MongoDB
       const newImage = new Image({
         identifier,
         url: imgURL,
-        description: '', 
-        tags, // Save the tags array in the MongoDB document
+        description: '', // Optional description
+        tags: tags.map(tag => tag.name), // Save tags
+        user_uuid, // Save user_uuid
+        uploadDate: new Date(), // Save upload date
       });
 
       await newImage.save();
-      imageUrls.push({ identifier, url: imgURL, tags });
-      identifiers.push(identifier);
+      uploadedImages.push({ identifier, url: imgURL, tags });
     }
 
+    // Respond with all the uploaded image data
+    res.status(200).json(uploadedImages);
   } catch (error) {
-    console.error('Error during multiple image upload:', error.response ? error.response.data : error.message);
+    console.error('Error during multiple image upload:', error.message);
     res.status(500).send('Error uploading images.');
   }
 });
+
 
 // Route to fetch all images
 app.get('/images', async (req, res) => {
@@ -300,6 +354,39 @@ app.use('/api', createProxyMiddleware({
   changeOrigin: true,
 }));
 
+
+// Helper function to shuffle array with a seed
+function shuffleArray(array, seed) {
+  const rng = seedrandom(seed);
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+// Route to fetch a consistent random set of images based on the daily seed
+app.get('/daily-images', async (req, res) => {
+  try {
+    const images = await Image.find();
+
+    if (images.length === 0) {
+      return res.status(404).send('No images available.');
+    }
+
+    // Generate a seed based on the current date (e.g., 'YYYY-MM-DD')
+    const today = new Date().toISOString().split('T')[0];
+    const seed = crypto.createHash('md5').update(today).digest('hex');
+
+    // Shuffle images using the daily seed
+    const shuffledImages = shuffleArray(images, seed).slice(0, 80); // Adjust the number of images as needed
+
+    res.status(200).json(shuffledImages);
+  } catch (error) {
+    console.error('Error fetching daily images:', error.message);
+    res.status(500).send('Error fetching daily images.');
+  }
+});
 
 // Start server
 app.listen(PORT, () => {

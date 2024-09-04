@@ -17,6 +17,9 @@ const LoginPage = () => {
   const [emailExists, setEmailExists] = useState(null);
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   const [isSliding, setIsSliding] = useState(false);
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [randomImageUrl, setRandomImageUrl] = useState('');
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -32,14 +35,49 @@ const LoginPage = () => {
     }
   };
 
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:7001/auth/sign-up', { name, email, password });
+      if (response.status === 201) {
+        window.location.href = '/profile'; // Redirect to /profile
+      }
+    } catch (error) {
+      console.error('Error during sign-up:', error);
+    }
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:7001/auth/login', { email, password });
+      if (response.status === 200) {
+        window.location.href = '/profile'; // Redirect to /profile
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+    }
+  };
+
   useEffect(() => {
+    const fetchRandomImage = async () => {
+      try {
+        const response = await axios.get('http://localhost:5050/random-image');
+        setRandomImageUrl(response.data.url);
+      } catch (error) {
+        console.error('Error fetching random image:', error);
+      }
+    };
+
+    fetchRandomImage();
+
     const interval = setInterval(() => {
       setIsSliding(true);
       setTimeout(() => {
         setCurrentRoleIndex((prevIndex) => (prevIndex + 1) % roles.length);
         setIsSliding(false);
       }, 500); // Duration of the slide transition
-    }, 1300); // Rotate every 3 seconds
+    }, 2000); // Rotate every 3 seconds
 
     return () => clearInterval(interval); // Clean up on component unmount
   }, []);
@@ -56,13 +94,17 @@ const LoginPage = () => {
         </p>
         <Login />
         {!emailExists && emailExists !== null ? (
-          <div className="login-form">
+          <div className="signup-form">
             <h4>Sign Up</h4>
-            <label htmlFor="first-name">First Name</label>
-            <input type="text" id="first-name" placeholder="Enter your first name" />
-            <label htmlFor="last-name">Last Name</label>
-            <input type="text" id="last-name" placeholder="Enter your last name" />
-            <label className="email-label" htmlFor="email">Email</label>
+            <label htmlFor="name">Name</label>
+            <input
+              type="text"
+              id="name"
+              placeholder="Enter your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <label htmlFor="email">Email</label>
             <input
               type="email"
               id="email"
@@ -71,13 +113,19 @@ const LoginPage = () => {
               className="login-input"
             />
             <label htmlFor="password">Password</label>
-            <input type="password" id="password" placeholder="Create a password" />
-            <button className="email-login-button">Sign Up</button>
+            <input
+              type="password"
+              id="password"
+              placeholder="Create a password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button className="email-login-button" onClick={handleSignUp}>
+              Sign Up
+            </button>
           </div>
         ) : emailExists === true ? (
           <div className="login-form">
-            <h4>Login</h4>
-            <label className="email-label" htmlFor="email">Email</label>
             <input
               type="email"
               id="email"
@@ -85,13 +133,20 @@ const LoginPage = () => {
               readOnly
               className="login-input"
             />
-            <label htmlFor="password">Password</label>
-            <input type="password" id="password" placeholder="Enter your password" />
-            <button className="email-login-button">Login</button>
+            <input
+              type="password"
+              id="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="login-password"
+            />
+            <button className="email-login-button" onClick={handleLogin}>
+              Login
+            </button>
           </div>
         ) : (
           <div className="login-form">
-            <label className="email-label" htmlFor="email">Email</label>
             <input
               type="email"
               placeholder="Enter your email"
@@ -104,6 +159,9 @@ const LoginPage = () => {
             </button>
           </div>
         )}
+      </div>
+      <div className="login-image">
+        <img src={randomImageUrl} alt="Random" />
       </div>
     </div>
   );

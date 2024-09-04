@@ -5,7 +5,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  animation: fadeIn 0.75s ease-out;
   background-color: white; /* Default light mode background */
   color: black; /* Default light mode text color */
 }
@@ -25,4 +24,5 @@
 .chroma-page.dark-mode {
   background-color: #191919; /* Dark mode background */
   color: #f1f1f1; /* Dark mode text color */
+
 }

@@ -3,7 +3,6 @@
   box-sizing: border-box;
   height: 100vh;
   overflow: auto;
-  animation: fadeIn 0.75s ease-out;
   padding-left: 1rem;
   padding-right: 1rem;
   background-color: white; /* Initial white background */

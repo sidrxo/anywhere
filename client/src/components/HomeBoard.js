@@ -1,23 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './component-styles/HomeBoard.css';
-import ImageViewer from './ImageViewer'; // Import ImageViewer
+import ImageViewer from './ImageViewer';
 
 const HomeBoard = ({ numColumns }) => {
-  const [images, setImages] = useState([]); // Define the images state
+  const [images, setImages] = useState([]);
   const [selectedIdentifier, setSelectedIdentifier] = useState(null);
 
   useEffect(() => {
-    const fetchImages = async () => {
+    const fetchDailyImages = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/images`);
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/daily-images`);
         setImages(response.data);
       } catch (error) {
-        console.error('Error fetching images:', error);
+        console.error('Error fetching daily images:', error);
       }
     };
 
-    fetchImages();
+    fetchDailyImages();
+
+    // Refresh the images daily
+    const refreshInterval = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+    const intervalId = setInterval(fetchDailyImages, refreshInterval);
+
+    return () => clearInterval(intervalId); // Cleanup interval on component unmount
   }, []);
 
   const handleImageClick = (identifier) => {
@@ -36,7 +42,7 @@ const HomeBoard = ({ numColumns }) => {
         </div>
       ))}
       {selectedIdentifier && (
-        <ImageViewer identifier={selectedIdentifier} onClose={closeImageViewer} /> // Pass the identifier and close function
+        <ImageViewer identifier={selectedIdentifier} onClose={closeImageViewer} />
       )}
     </div>
   );

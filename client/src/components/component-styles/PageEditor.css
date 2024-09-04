@@ -1,6 +1,8 @@
 .page-editor {
   position: fixed;
   width: 99%;
+  height: auto; /* Reduced height to 40% of the viewport height */
+
   background-color: white;
   padding: 1rem;
   z-index: 1000;
@@ -18,12 +20,17 @@
   color: #f1f1f1; /* Dark mode text color */
 }
 
+.page-editor.dark-mode .close:before,
+.page-editor.dark-mode .close:after {
+  background-color: #f1f1f1; /* White color in dark mode */
+}
+
 .close {
   position: absolute;
   right: 40px;
-  width: 32px;
-  height: 32px;
-  opacity: 0.3;
+  width: 30px;
+  height: 30px;
+  opacity: 0.5;
   cursor: pointer;
   background: transparent;
   border: none;
@@ -80,8 +87,8 @@
 }
 .dark-mode-toggle {
   position: absolute;
-  bottom: 30%; /* Adjust distance from bottom */
-  right: 50%; /* Adjust distance from right */
+  bottom: 15%; /* Adjust distance from bottom */
+  right: 2%; /* Adjust distance from right */
   background: transparent;
   border: none;
   cursor: pointer;
@@ -91,7 +98,7 @@
   justify-content: center;
   width: 32px; /* Size of the button */
   height: 32px; /* Size of the button */
-  opacity: 0.6; /* Initial opacity */
+  opacity: 0.5; /* Initial opacity */
 }
 
 .dark-mode-toggle:hover {
@@ -100,8 +107,8 @@
 
 /* Moon Icon Styles */
 .dark-mode-toggle img {
-  width: 28px; /* Size of the moon icon */
-  height: 28px; /* Size of the moon icon */
+  width: 24px; /* Size of the moon icon */
+  height: 24px; /* Size of the moon icon */
   transition: filter 0.3s ease;
 }
 
