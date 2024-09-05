@@ -20,9 +20,9 @@ const LoginPage = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [randomImageUrl, setRandomImageUrl] = useState('');
-  const [continueClicked, setContinueClicked] = useState(false);
-  const [hideLogin, setHideLogin] = useState(false);
-  const [hideGoogleOr, setHideGoogleOr] = useState(false);
+  const [continueClicked, setContinueClicked] = useState(false); // New state
+  const [hideLogin, setHideLogin] = useState(false); // New state for hiding the form
+  const [hideGoogleOr, setHideGoogleOr] = useState(false); // New state for hiding Google and "or" text
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -30,19 +30,17 @@ const LoginPage = () => {
 
   const handleEmailSubmit = async (e) => {
     e.preventDefault();
-    if (!email || !/\S+@\S+\.\S+/.test(email)) {
-      alert('Please enter a valid email address.');
-      return;
-    }
-    setContinueClicked(true);
-    setTimeout(() => setHideLogin(true), 500);
+    setContinueClicked(true); // Trigger animation when user clicks "Continue with email"
+    setTimeout(() => setHideLogin(true), 500); // Hide login form after animation duration
     try {
-      const response = await axios.post('http://localhost:7001/auth/check-email', { email });
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/auth/check-email`, { email });
       setEmailExists(response.data.exists);
 
       if (response.data.exists) {
+        // Update the URL to /sign-up
         window.history.pushState({}, '', '/sign-up');
       } else {
+        // Update the URL to /login
         window.history.pushState({}, '', '/login');
       }
     } catch (error) {
@@ -53,9 +51,9 @@ const LoginPage = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/auth/sign-up`, { name, email, password });
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/auth/sign-up`, { name, email, password });
       if (response.status === 201) {
-        window.location.href = '/profile';
+        window.location.href = '/profile'; // Redirect to /profile
       }
     } catch (error) {
       console.error('Error during sign-up:', error);
@@ -65,9 +63,9 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/auth/login`, { email, password });
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/auth/login`, { email, password });
       if (response.status === 200) {
-        window.location.href = '/profile';
+        window.location.href = '/profile'; // Redirect to /profile
       }
     } catch (error) {
       console.error('Error during login:', error);
@@ -75,16 +73,16 @@ const LoginPage = () => {
   };
 
   const handleGoogleClick = () => {
-    setHideGoogleOr(true);
+    setHideGoogleOr(true); // Trigger hide animation for Google and "or" text
     setTimeout(() => {
-      setContinueClicked(true);
-    }, 500);
+      setContinueClicked(true); // Trigger slide-up animation for password input
+    }, 500); // Ensure this runs after Google and "or" text animation
   };
 
   useEffect(() => {
     const fetchRandomImage = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/random-image`);
+        const response = await axios.get('http://localhost:5050/random-image');
         setRandomImageUrl(response.data.url);
       } catch (error) {
         console.error('Error fetching random image:', error);
@@ -98,10 +96,10 @@ const LoginPage = () => {
       setTimeout(() => {
         setCurrentRoleIndex((prevIndex) => (prevIndex + 1) % roles.length);
         setIsSliding(false);
-      }, 500);
-    }, 2000);
+      }, 500); // Duration of the slide transition
+    }, 2000); // Rotate every 2 seconds
 
-    return () => clearInterval(interval);
+    return () => clearInterval(interval); // Clean up on component unmount
   }, []);
 
   return (
@@ -118,6 +116,7 @@ const LoginPage = () => {
           </span>
         </p>
 
+        {/* Wrap the Login component in its own div and apply the fade-out and move-up animation */}
         <div className={`login-form-container ${continueClicked ? 'move-up-and-fade-out' : ''} ${hideLogin ? 'hide' : ''}`}>
           <Login />
           <div className="or-divider">
@@ -134,7 +133,6 @@ const LoginPage = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="login-input"
-              required
             />
             <input
               type="email"
@@ -142,7 +140,6 @@ const LoginPage = () => {
               value={email}
               readOnly
               className="login-input"
-              required
             />
             <input
               type="password"
@@ -151,7 +148,6 @@ const LoginPage = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="login-input"
-              required
             />
             <button className="email-login-button" onClick={handleSignUp}>
               Sign Up
@@ -165,7 +161,6 @@ const LoginPage = () => {
               value={email}
               readOnly
               className="login-input"
-              required
             />
             <input
               type="password"
@@ -174,7 +169,6 @@ const LoginPage = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="login-password"
-              required
             />
             <button className="email-login-button" onClick={handleLogin}>
               Login
@@ -188,16 +182,15 @@ const LoginPage = () => {
               className="login-input"
               value={email}
               onChange={handleEmailChange}
-              required
             />
             <button className="email-login-button" onClick={handleEmailSubmit}>
-              Continue with email
+              continue with email
             </button>
           </div>
         )}
       </div>
       <div className="login-image">
-        <img src={randomImageUrl} alt="Random" />
+        <img src={randomImageUrl}/>
       </div>
     </div>
   );

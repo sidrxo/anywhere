@@ -1,5 +1,5 @@
 .search-page {
-  padding-top: 80px;
+  padding-top: 60px;
   align-items: center; /* Center content horizontally */
   justify-content: center; /* Center content vertically */
   min-height: 100vh; /* Ensure it takes at least the full viewport height */
@@ -7,7 +7,6 @@
 }
 
 .search-bar {
-  position: inherit;
   width: 100%; /* Take full width of the parent container */
   max-width: 80vw; /* Set a maximum width for the input field */
   margin: 20px auto; /* Center horizontally with auto margins and add space below */
@@ -20,7 +19,7 @@
   width: 100%; /* Make the input field take the full width of its container */
   max-width: 80vw; /* Set a maximum width for the input field */
   height: 5vh; /* Set a specific height */
-  padding: 12px; /* Add padding inside the input field */
+  padding: 1.5rem; /* Add padding inside the input field */
   font-size: 16px; /* Adjust font size */
   border-radius: 12px; /* Round corners */
   border: 1.5px solid lightgrey; /* Border color */
@@ -34,6 +33,7 @@
   border: 2px solid lightgrey; /* Border color on hover */
   box-shadow: 0px 0px 20px -17px; /* Adjust shadow on hover */
 }
+
 
 
 .search-bar input:focus {
