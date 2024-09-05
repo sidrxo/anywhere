@@ -7,6 +7,7 @@
 }
 
 .search-bar {
+  position: inherit;
   width: 100%; /* Take full width of the parent container */
   max-width: 80vw; /* Set a maximum width for the input field */
   margin: 20px auto; /* Center horizontally with auto margins and add space below */

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useDarkMode } from '../context/DarkModeContext'; // Import dark mode context
 import './page-styles/UploadPage.css';
 
 const UploadPage = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [description, setDescription] = useState('');
   const [message, setMessage] = useState('');
+  const { isDarkMode } = useDarkMode(); // Use dark mode context
 
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
@@ -43,7 +45,7 @@ const UploadPage = () => {
   };
 
   return (
-    <div className="upload-page">
+    <div className={`upload-page ${isDarkMode ? 'dark-mode' : ''}`}>
       <h1>Upload Page</h1>
       <form onSubmit={handleSubmit} className="upload-form">
         <input

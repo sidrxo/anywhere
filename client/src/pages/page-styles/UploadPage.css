@@ -7,8 +7,13 @@
   height: 100vh;
   text-align: center;
   transition: opacity 0.75s ease-out; /* Duration and timing function for the fade-in effect */
+  background-color: white; /* Default background color */
 }
 
+.upload-page.dark-mode {
+  background-color: black; /* Dark background for dark mode */
+  color: white; /* White text color for dark mode */
+}
 
 .upload-page h1 {
   font-size: 2rem;
@@ -21,30 +26,35 @@
   align-items: center;
   gap: 15px;
   transition: opacity 0.75s ease-out; /* Duration and timing function for the fade-in effect */
-
 }
 
 .file-input {
   border-width: 3px;
   margin-bottom: 10px;
-  padding: 2rem;
+  padding: 1rem;
   border-radius: 8px;
   font-size: 1rem;
-  width: 100%; /* Full width to match the input styles from LoginPage */
-  max-width: 400px; /* Max width similar to LoginPage */
+  width: 100%;
+  max-width: 400px;
+  color: #000; /* Default text color */
+  border: 1px solid white;
+}
+
+.upload-page.dark-mode .file-input {
+  color: #fff; /* White text color for file input in dark mode */
 }
 
 .upload-button {
   width: 100%;
   padding: 12px;
-  background-color: #191919; /* Dark background similar to LoginPage button */
+  background-color: #191919;
   color: white;
   border: none;
-  border-radius: 8px; /* Matching border radius */
-  font-size: 14px; /* Matching font size */
+  border-radius: 8px;
+  font-size: 14px;
   cursor: pointer;
-  height: 40px; /* Matching height to LoginPage button */
-  max-width: 400px; /* Max width similar to LoginPage */
+  height: 40px;
+  max-width: 400px;
   transition: background-color 0.3s ease;
 }
 
@@ -52,8 +62,20 @@
   background-color: #333;
 }
 
+.upload-page.dark-mode .upload-button {
+  background-color: #444; /* Darker background for button in dark mode */
+}
+
+.upload-page.dark-mode .upload-button:hover {
+  background-color: #666; /* Darker hover state for button in dark mode */
+}
+
 .message {
   margin-top: 10px;
-  font-size: 0.9rem; /* Matching font size to align with LoginPage */
+  font-size: 0.9rem;
   color: #333;
+}
+
+.upload-page.dark-mode .message {
+  color: #ccc; /* Lighter text color for messages in dark mode */
 }

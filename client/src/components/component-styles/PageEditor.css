@@ -37,20 +37,8 @@
   opacity: 1; /* Show editor when open */
 }
 
-.page-editor.dark-mode {
-  background-color: #191919;
-  color: #f1f1f1;
-}
-
-.page-editor.dark-mode .close:before,
-.page-editor.dark-mode .close:after {
-  background-color: #f1f1f1;
-}
 
 
-.page-editor.dark-mode .close {
-  color: white;
-}
 
 /* Close Button */
 .close {

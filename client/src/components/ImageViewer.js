@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useDarkMode } from '../context/DarkModeContext'; // Import dark mode context
 import './component-styles/ImageViewer.css';
 
 const ImageViewer = ({ identifier, onClose }) => {
@@ -10,6 +11,7 @@ const ImageViewer = ({ identifier, onClose }) => {
   const [error, setError] = useState(null);
 
   const { identifier: urlIdentifier } = useParams();
+  const { isDarkMode } = useDarkMode(); // Use dark mode context
 
   useEffect(() => {
     const fetchImage = async () => {
@@ -68,7 +70,7 @@ const ImageViewer = ({ identifier, onClose }) => {
   };
 
   return (
-    <div className={`image-viewer-overlay ${image ? 'visible' : ''}`} onClick={handleButtonClick}>
+    <div className={`image-viewer-overlay ${isDarkMode ? 'dark-mode' : ''} ${image ? 'visible' : ''}`} onClick={handleButtonClick}>
       <div className={`image-viewer-menu ${menuShifted ? 'shifted' : ''}`} onClick={handleButtonClick}>
         <button className="image-viewer-save-button" onClick={handleSave}>save</button>
         <button className="image-viewer-info-button" onClick={handleInfo}>info</button>
@@ -76,14 +78,18 @@ const ImageViewer = ({ identifier, onClose }) => {
       </div>
       <div className={`image-viewer-content ${infoVisible ? 'shifted' : ''}`} onClick={(e) => e.stopPropagation()}>
         {image ? (
-          <img src={image.url} alt="Enlarged View" />
+          <img
+            src={image.url}
+            alt="Enlarged View"
+            onContextMenu={(e) => e.preventDefault()} // Prevent right-click
+          />
         ) : (
           <p>Loading...</p>
         )}
       </div>
       {image && (
-        <div className={`info-overlay ${infoVisible ? 'visible' : ''}`}>
-          <h2>Image Information</h2>
+        <div className={`info-overlay ${isDarkMode ? 'dark-mode' : ''} ${infoVisible ? 'visible' : ''}`} onClick={handleButtonClick}>
+          <p>Image Information</p>
           <p><strong>Identifier:</strong> {identifier}</p>
           <p><strong>URL:</strong> {image.url}</p>
           <p><strong>Description:</strong> {image.description || 'No description available'}</p>

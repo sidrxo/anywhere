@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import HomeBoard from '../components/HomeBoard';
 import { useDarkMode } from '../context/DarkModeContext'; // Import dark mode context
-import './page-styles/Home.css';
+import './page-styles/HomePage.css';
 
 axios.defaults.withCredentials = true; // Ensure cookies are included in requests
 

@@ -54,7 +54,7 @@
 
 /* Dark mode styles */
 .search-container.dark-mode {
-  background-color: #191919; /* Transition to dark mode background */
+  background-color: black; /* Transition to dark mode background */
   color: #f1f1f1; /* Transition to dark mode text color */
 }
 

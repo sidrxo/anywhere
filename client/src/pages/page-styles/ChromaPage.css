@@ -22,7 +22,7 @@
 
 /* Dark mode styles */
 .chroma-page.dark-mode {
-  background-color: #191919; /* Dark mode background */
+  background-color: black; /* Dark mode background */
   color: #f1f1f1; /* Dark mode text color */
 
 }

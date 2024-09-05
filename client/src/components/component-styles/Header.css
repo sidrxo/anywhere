@@ -36,7 +36,7 @@ header a:hover {
 #section1 h1 {
   margin: 0;
   cursor: pointer;
-  font-weight: 100;
+  font-weight: 400;
 }
 
 #section2 {
@@ -157,7 +157,7 @@ nav a.active-link {
 }
 
 header.dark-mode {
-  background-color: #191919; /* Dark mode background */
+  background-color: black; /* Dark mode background */
   color: #f1f1f1; /* Dark mode text color */
 }
 

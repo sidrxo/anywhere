@@ -14,6 +14,10 @@
   z-index: 1000;
 }
 
+.image-viewer-overlay.dark-mode {
+background-color: black;
+}
+
 .image-viewer-overlay.visible {
   opacity: 1;
   visibility: visible;
@@ -31,7 +35,7 @@
 }
 
 .image-viewer-menu.shifted {
-  transform: translateX(-230px); /* Adjust value to shift content left */
+  transform: translateX(-17vw); /* Adjust value to shift content left */
 }
 
 
@@ -39,20 +43,25 @@
   transform: translateX(-5vw); /* Adjust value to shift content left */
 
 }
-.image-viewer-save-button, .image-viewer-info-button, .image-viewer-close-button {
-  background: rgba(255, 255, 255, 0.8);
+
+.image-viewer-save-button,
+.image-viewer-info-button,
+.image-viewer-close-button {
   border: none;
+  background: transparent; /* Remove background color */
   border-radius: 4px;
   padding: 8px 12px;
   cursor: pointer;
-  transition: background 0.3s ease, opacity 0.3s ease; /* Smooth transitions for background and opacity */
-  opacity: 0.8; /* Default opacity for buttons */
+  transition: background 0.3s ease, opacity 0.3s ease;
+  color: inherit; /* Inherit text color from parent */
   font-size: 16px;
+  outline: none; /* Remove focus outline */
 }
 
-.image-viewer-save-button:hover, .image-viewer-info-button:hover, .image-viewer-close-button:hover {
-  background: rgba(255, 255, 255, 1);
-  opacity: 1; /* Full opacity when hovered */
+.image-viewer-save-button:hover,
+.image-viewer-info-button:hover,
+.image-viewer-close-button:hover {
+  background: rgba(0, 0, 0, 0.1); /* Subtle background change on hover for better visibility */
 }
 
 .image-viewer-content {
@@ -75,7 +84,7 @@
   position: fixed;
   top: 0;
   right: -400px; /* Start off-screen */
-  width: 200px;
+  width: 15vw;
   height: 100%;
   background: white;
   box-shadow: -4px 0 8px rgba(0, 0, 0, 0.2);
@@ -85,6 +94,14 @@
   z-index: 1200; /* Ensure overlay is above all other elements */
 }
 
+
+.info-overlay.dark-mode {
+background-color: black;
+color: white;
+
+}
+
 .info-overlay.visible {
   right: 0; /* Slide in to visible position */
 }
+
