@@ -1,48 +1,74 @@
-.page-editor {
+.overlay {
   position: fixed;
-  width: 99%;
-  height: auto; /* Reduced height to 40% of the viewport height */
-
-  background-color: white;
-  padding: 1rem;
-  z-index: 1000;
-  transform: translateY(-100%);
-  transition: transform 0.3s ease-in-out, background-color 0.3s, color 0.3s;
-  overflow: hidden; /* Prevent clicks outside the editor */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent black background */
+  z-index: 999; /* Ensure it's behind the page editor */
+  pointer-events: auto; /* Allow clicks to close the editor */
+  transition: opacity 0.3s ease-in-out; /* Add transition for fading */
 }
 
+
+
+/* General Styles */
+.page-editor {
+  opacity: 0;
+  position: fixed;
+  width: 9vw; /* Adjusted width for better visibility */
+  height: auto;
+  background-color: white;
+  padding: 1rem;
+  z-index: 1001; /* Ensure it's above the overlay */
+  transform: translateY(-140%);
+  transition: opacity 0.3s ease-in-out; /* Add transition for fading */
+  overflow: hidden;
+  right: 6vw; /* Position 10px from the right edge */
+  top: 80vh; /* Position 40px from the top */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
+  border-radius: 10px;
+}
+
+
 .page-editor.open {
-  transform: translateY(0);
+  opacity: 1; /* Show editor when open */
 }
 
 .page-editor.dark-mode {
-  background-color: #191919; /* Dark mode background */
-  color: #f1f1f1; /* Dark mode text color */
+  background-color: #191919;
+  color: #f1f1f1;
 }
 
 .page-editor.dark-mode .close:before,
 .page-editor.dark-mode .close:after {
-  background-color: #f1f1f1; /* White color in dark mode */
+  background-color: #f1f1f1;
 }
 
+
+.page-editor.dark-mode .close {
+  color: white;
+}
+
+/* Close Button */
 .close {
-  position: absolute;
-  right: 40px;
-  width: 30px;
-  height: 30px;
+  position: fixed;
+  top: 10px; /* Adjusted to align with the top edge */
+  right: 10px; /* Align with the right edge */
   opacity: 0.5;
   cursor: pointer;
   background: transparent;
   border: none;
   box-shadow: none;
   outline: none;
-  z-index: 1100; /* Ensure it is on top of other elements */
+  z-index: 1100;
+  transform: scale(0.7);
 }
 
 .close:hover {
-  opacity: 1; /* Maintain the same opacity */
-  background: transparent; /* Ensure no background color */
-  box-shadow: none; /* Ensure no box-shadow */
+  opacity: 1;
 }
 
 .close:before,
@@ -65,65 +91,79 @@
   transform: translate(-50%, -50%) rotate(-45deg);
 }
 
+/* Editor Section */
 .editor-section {
-  margin-left: 10vw;
-  width: 40vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
 }
 
 .editor-section h2 {
-  margin-bottom: 0.1rem;
+  margin-bottom: 0;
   font-size: 1.2rem;
-  color: inherit; /* Inherit color from parent */
+  color: inherit;
+  font-weight: 100;
 }
 
 .editor-section input[type="range"] {
-  width: 100%;
+  width: 70%; /* Adjust width for better fit */
+  margin-bottom: 1vh;
 }
 
-.editor-section p {
-  margin-bottom: 0.1rem;
-  font-size: 1rem;
-  color: inherit; /* Inherit color from parent */
+
+/* Toggle Switch */
+.toggle-switch {
+  position: relative;
+  width: 60px;
+  height: 30px;
+  --light: #d8dbe0;
+  --dark: #28292c;
+  transform: scale(0.7);
 }
-.dark-mode-toggle {
+
+.switch-label {
   position: absolute;
-  bottom: 15%; /* Adjust distance from bottom */
-  right: 2%; /* Adjust distance from right */
-  background: transparent;
-  border: none;
+  width: 100%;
+  height: 100%;
+  background-color: var(--dark);
+  border-radius: 15px; /* Adjusted border radius */
   cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px; /* Size of the button */
-  height: 32px; /* Size of the button */
-  opacity: 0.5; /* Initial opacity */
+  border: 3px solid var(--dark);
 }
 
-.dark-mode-toggle:hover {
-  opacity: 1; /* Full opacity on hover */
+.checkbox {
+  position: absolute;
+  display: none;
 }
 
-/* Moon Icon Styles */
-.dark-mode-toggle img {
-  width: 24px; /* Size of the moon icon */
-  height: 24px; /* Size of the moon icon */
-  transition: filter 0.3s ease;
+.slider {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px; /* Adjusted border radius */
+  transition: 0.3s;
 }
 
-/* Dark Mode Styles */
-.page-editor.dark-mode {
-  background-color: #191919; /* Dark mode background */
-  color: #f1f1f1; /* Dark mode text color */
-  transition: background-color 0.3s, color 0.3s;
+.checkbox:checked ~ .slider {
+  background-color: var(--light);
 }
 
-/* Flip moon icon colors for dark mode */
-.page-editor.dark-mode .dark-mode-toggle img {
-  filter: brightness(0) invert(1); /* Use brightness and invert to achieve color flip */
+.slider::before {
+  content: "";
+  position: absolute;
+  top: 2px; /* Adjusted position */
+  left: 2px; /* Adjusted position */
+  width: 26px; /* Reduced width */
+  height: 26px; /* Reduced height */
+  border-radius: 50%;
+  box-shadow: inset 10px -4px 0px 0px var(--light);
+  background-color: var(--dark);
+  transition: 0.3s;
 }
 
-.page-editor.dark-mode .close {
-  color: white; /* Set color to white in dark mode */
+.checkbox:checked ~ .slider::before {
+  transform: translateX(30px); /* Adjusted for smaller switch size */
+  background-color: var(--dark);
+  box-shadow: none;
 }

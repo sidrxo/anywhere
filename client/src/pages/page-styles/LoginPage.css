@@ -1,100 +1,93 @@
 /* Ensure full-height layout and full-width inputs */
-
 .login-page {
   display: flex;
-  align-items: center;
   height: 100vh; /* Full viewport height */
   margin: 0; /* No margin */
   padding: 0; /* No padding */
-}
-
-
-.login-page.dark-mode {
-  background-color: #191919; /* Dark mode background color */
-  color: #f1f1f1; /* Dark mode text color */
+  background-color: black;
 }
 
 .login-page.dark-mode {
   background-color: #191919; /* Dark mode background color */
   color: #f1f1f1; /* Dark mode text color */
 }
+
 .login-container {
-  padding: 2rem; /* Adjust padding for better layout */
+  transform: scale(0.9);
+  padding-top: 30vh;
   width: 30%; /* Take up 1/3 of the width */
   display: flex;
   flex-direction: column;
   align-items: center; /* Center align items horizontally */
-}
-
-.login-image {
-  width: 70%;
-  filter: brightness(50%);
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center; /* Center the image horizontally */
-  overflow: hidden; /* Ensure content does not overflow */
-}
-
-.login-image img {
-  width: 100%; /* Full height of the container */
+  color: #f1f1f1; /* Dark mode text color */
+  position: relative; /* Ensure relative positioning for stacking context */
+  z-index: 10; /* Ensure it stacks above the form */
 }
 
 h3 {
+  font-weight: 300;
   font-size: 2rem;
-  color: rgb(38, 38, 167);
+  color: #f1f1f1; /* Dark mode text color */
   margin: 0;
+}
+
+.fixed-text {
+  margin-top: -10px;
+  font-size: 0.9rem;
+  color: #666;
+  margin-left: -100px;
+}
+
+.role-text {
+  margin-top: 1px;
+  position: absolute;
+  font-size: 0.9rem;
+  color: #f1f1f1; /* Dark mode text color */
 }
 
 .login-form,
 .signup-form {
-  
-  display: flex;
   flex-direction: column;
-  width: 400px; /* Ensure forms take up full width of the container */
+  width: 15vw; /* Ensure forms take up full width of the container */
   margin-top: 1rem; /* Adjust as needed */
+  justify-content: center;
+  align-items: center;
 }
 
+/* Apply box-sizing to all inputs and buttons */
 .login-input,
-.login-password {
-  width: 100%; /* Full width of the container */
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
-  margin-bottom: 1rem;
-}
-
-.or-text {
-  padding-left: 0; /* Removed padding for better responsiveness */
-  font-size: 1rem;
-  color: #666;
-  margin-bottom: 1rem;
-  text-align: center; /* Center align text */
-}
-
+.login-password,
 .email-login-button {
-  width: 100%; /* Full width of the container */
-  padding: 12px;
-  background-color: #191919;
+  width: 15vw; /* Consistent width */
+  box-sizing: border-box; /* Include padding and border in width */
+  padding: 0.5rem; /* Same padding for input and button */
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+  border: 1px solid black; /* Same border for both */
+  border-radius: 10px; /* Consistent border-radius */
+  font-size: 0.75rem;
+  margin-bottom: 1rem; /* Adjust as needed for spacing */
+  background-color: #3a3a3a;
+}
+
+::placeholder {
   color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
+  opacity: 0.7; /* Firefox */
+}
+
+/* Specifically for the button */
+.email-login-button {
+  background-color: white;
+  border: 1px solid white;
+  color: black;
   cursor: pointer;
-  height: 40px;
-  margin-top: 1rem; /* Adjust margin for spacing */
+  transition: background-color 0.5s, color 0.5s; /* Transition properties */
+
 }
 
 .email-login-button:hover {
-  background-color: #333;
-}
-
-.email-label {
-  margin-bottom: 8px;
-  margin-top: 1rem; /* Adjusted for better spacing */
-  font-size: 0.9rem;
-  color: #333;
-  align-self: flex-start;
+  background-color: lightgray;
+  color: black;
 }
 
 .slide-off {
@@ -125,4 +118,93 @@ h3 {
       transform: translateY(0);
       opacity: 1;
   }
+}
+
+.or-divider {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.back-button {
+  position: absolute;
+  align-self: flex-start; /* Align to the left */
+  background-color: transparent; /* Transparent background */
+  color: white; /* Text color */
+  border: none; /* Remove borders */
+  font-size: 2rem; /* Adjust font size */
+  cursor: pointer; /* Pointer cursor */
+  opacity: 0.6;
+  padding-top: 3rem;
+  padding-left: 8.3rem;
+  z-index: 1000;
+}
+
+.back-button:hover {
+  opacity: 1;
+}
+
+.login-image {
+  width: 70%;
+  filter: brightness(50%);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center the image horizontally */
+  overflow: hidden; /* Ensure content does not overflow */
+}
+
+.login-image img {
+  width: 100%; /* Full height of the container */
+  min-height: 100%;
+}
+
+
+.gradient-text {
+  background: linear-gradient(135deg, #ff7f50, #ff6347, #ffd700, #adff2f, #7fffd4, #00ced1, #1e90ff, #ff69b4); /* Gradient with multiple colors */
+  background-size: 400% 400%; /* Increase size for smoother movement in all directions */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+  animation: gradient-shift 15s ease infinite; /* Infinite animation with ease timing */
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 0%; /* Start at top-left */
+  }
+  25% {
+    background-position: 100% 0%; /* Move to top-right */
+  }
+  50% {
+    background-position: 100% 100%; /* Move to bottom-right */
+  }
+  75% {
+    background-position: 0% 100%; /* Move to bottom-left */
+  }
+  100% {
+    background-position: 0% 0%; /* Back to top-left */
+  }
+}
+
+/* CSS for smooth transitions */
+.login-form-container {
+  transition: transform 1s ease, opacity 0.5s ease;
+  position: relative; /* Ensure it respects the stacking context */
+}
+
+/* CSS for the move-up-and-fade-out animation */
+.move-up-and-fade-out {
+  transform: translateY(-100px); /* Move up by 100px */
+  opacity: 0;
+}
+
+/* Styles for sliding up the password field */
+.slide-up-password {
+  transform: translateY(-100px); /* Adjust based on the height of the element */
+  transition: transform 0.5s ease;
+}
+
+
+label {
+  margin-bottom: 30px;
 }

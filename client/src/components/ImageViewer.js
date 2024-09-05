@@ -70,9 +70,9 @@ const ImageViewer = ({ identifier, onClose }) => {
   return (
     <div className={`image-viewer-overlay ${image ? 'visible' : ''}`} onClick={handleButtonClick}>
       <div className={`image-viewer-menu ${menuShifted ? 'shifted' : ''}`} onClick={handleButtonClick}>
-        <button className="image-viewer-save-button" onClick={handleSave}>Save</button>
-        <button className="image-viewer-info-button" onClick={handleInfo}>Info</button>
-        <button className="image-viewer-close-button" onClick={handleClose}>Close</button>
+        <button className="image-viewer-save-button" onClick={handleSave}>save</button>
+        <button className="image-viewer-info-button" onClick={handleInfo}>info</button>
+        <button className="image-viewer-close-button" onClick={handleClose}>close</button>
       </div>
       <div className={`image-viewer-content ${infoVisible ? 'shifted' : ''}`} onClick={(e) => e.stopPropagation()}>
         {image ? (

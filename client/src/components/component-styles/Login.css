@@ -3,14 +3,14 @@
   -webkit-user-select: none;
   -ms-user-select: none;
   -webkit-appearance: none;
-  background-color: WHITE;
+  background-color: black;
   background-image: none;
   border: 1px solid #747775;
   -webkit-border-radius: 20px;
   border-radius: 10px;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  color: #1f1f1f;
+  color: white;
   cursor: pointer;
   font-family: 'Roboto', arial, sans-serif;
   font-size: 14px;
@@ -25,8 +25,12 @@
   transition: background-color .218s, border-color .218s, box-shadow .218s;
   vertical-align: middle;
   white-space: nowrap;
-  width: 400px;
-  min-width: min-content;
+  min-width: 15vw;
+  margin-top: 3rem;
+}
+
+.gsi-material-button:hover {
+  background-color: #303030;
 }
 
 .gsi-material-button .gsi-material-button-icon {

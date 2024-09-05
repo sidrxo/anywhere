@@ -20,6 +20,9 @@ const LoginPage = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [randomImageUrl, setRandomImageUrl] = useState('');
+  const [continueClicked, setContinueClicked] = useState(false);
+  const [hideLogin, setHideLogin] = useState(false);
+  const [hideGoogleOr, setHideGoogleOr] = useState(false);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -27,9 +30,21 @@ const LoginPage = () => {
 
   const handleEmailSubmit = async (e) => {
     e.preventDefault();
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+    setContinueClicked(true);
+    setTimeout(() => setHideLogin(true), 500);
     try {
       const response = await axios.post('http://localhost:7001/auth/check-email', { email });
       setEmailExists(response.data.exists);
+
+      if (response.data.exists) {
+        window.history.pushState({}, '', '/sign-up');
+      } else {
+        window.history.pushState({}, '', '/login');
+      }
     } catch (error) {
       console.error('Error checking email:', error);
     }
@@ -40,7 +55,7 @@ const LoginPage = () => {
     try {
       const response = await axios.post('http://localhost:7001/auth/sign-up', { name, email, password });
       if (response.status === 201) {
-        window.location.href = '/profile'; // Redirect to /profile
+        window.location.href = '/profile';
       }
     } catch (error) {
       console.error('Error during sign-up:', error);
@@ -52,11 +67,18 @@ const LoginPage = () => {
     try {
       const response = await axios.post('http://localhost:7001/auth/login', { email, password });
       if (response.status === 200) {
-        window.location.href = '/profile'; // Redirect to /profile
+        window.location.href = '/profile';
       }
     } catch (error) {
       console.error('Error during login:', error);
     }
+  };
+
+  const handleGoogleClick = () => {
+    setHideGoogleOr(true);
+    setTimeout(() => {
+      setContinueClicked(true);
+    }, 500);
   };
 
   useEffect(() => {
@@ -76,70 +98,83 @@ const LoginPage = () => {
       setTimeout(() => {
         setCurrentRoleIndex((prevIndex) => (prevIndex + 1) % roles.length);
         setIsSliding(false);
-      }, 500); // Duration of the slide transition
-    }, 2000); // Rotate every 3 seconds
+      }, 500);
+    }, 2000);
 
-    return () => clearInterval(interval); // Clean up on component unmount
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="login-page">
+      <button className="back-button" onClick={() => window.history.back()}>
+        &larr; 
+      </button>
       <div className="login-container">
-        <h3>welcome to chroma.</h3>
+        <h3>welcome to <span className="gradient-text">chroma</span>.</h3>
         <p className="or-text">
-          <span className="fixed-text">the image library for&nbsp;</span>
+          <span className="fixed-text">the image library for&nbsp;&nbsp;</span>
           <span className={`role-text ${isSliding ? 'slide-off' : 'slide-on'}`}>
             {roles[currentRoleIndex]}
           </span>
         </p>
-        <Login />
+
+        <div className={`login-form-container ${continueClicked ? 'move-up-and-fade-out' : ''} ${hideLogin ? 'hide' : ''}`}>
+          <Login />
+          <div className="or-divider">
+            <span>or</span>
+          </div>
+        </div>
+
         {!emailExists && emailExists !== null ? (
-          <div className="signup-form">
-            <h4>Sign Up</h4>
-            <label htmlFor="name">Name</label>
+          <div className={`signup-form ${continueClicked ? 'slide-up-password' : ''}`}>
             <input
               type="text"
               id="name"
-              placeholder="Enter your name"
+              placeholder="enter your name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              className="login-input"
+              required
             />
-            <label htmlFor="email">Email</label>
             <input
               type="email"
               id="email"
               value={email}
               readOnly
               className="login-input"
+              required
             />
-            <label htmlFor="password">Password</label>
             <input
               type="password"
               id="password"
-              placeholder="Create a password"
+              placeholder="create a password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              className="login-input"
+              required
             />
             <button className="email-login-button" onClick={handleSignUp}>
               Sign Up
             </button>
           </div>
         ) : emailExists === true ? (
-          <div className="login-form">
+          <div className={`login-form ${continueClicked ? 'slide-up-password' : ''}`}>
             <input
               type="email"
               id="email"
               value={email}
               readOnly
               className="login-input"
+              required
             />
             <input
               type="password"
               id="password"
-              placeholder="Enter your password"
+              placeholder="enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="login-password"
+              required
             />
             <button className="email-login-button" onClick={handleLogin}>
               Login
@@ -149,10 +184,11 @@ const LoginPage = () => {
           <div className="login-form">
             <input
               type="email"
-              placeholder="Enter your email"
+              placeholder="enter your email"
               className="login-input"
               value={email}
               onChange={handleEmailChange}
+              required
             />
             <button className="email-login-button" onClick={handleEmailSubmit}>
               Continue with email

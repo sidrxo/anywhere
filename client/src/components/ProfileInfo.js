@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './Profile.css'; // Import the CSS file for styling
+import '../components/component-styles/Profile.css'; // Import the CSS file for styling
 
 axios.defaults.baseURL = `${process.env.REACT_APP_API_BASE_URL}`;
 axios.defaults.withCredentials = true; // Ensure cookies are included in requests
@@ -30,7 +30,7 @@ const Profile = () => {
             axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/logout`)
                 .then(() => {
                     setUser(null);
-                    navigate('/login');
+                    navigate('/home');
                     window.location.reload();
                 })
                 .catch(error => {
@@ -43,8 +43,8 @@ const Profile = () => {
 
     return (
             <div className="profile-details">
-                <p><strong></strong> {user.name}</p>
-                <p><strong></strong> {user.email}</p>
+                <p> {user.name}</p>
+                <p> {user.email}</p>
                 <button onClick={handleLogout} className="logout-button">Logout</button>
             </div>
     );

@@ -5,7 +5,7 @@ import ImageViewer from './components/ImageViewer';
 import UploadPage from './pages/UploadPage';
 import SearchPage from './pages/SearchPage';
 import PageEditor from './components/PageEditor';
-import Home from './pages/Home'; // Import Home page
+import Home from './pages/HomePage.js'; // Import Home page
 import AdminMainPage from './pages/AdminMainPage';
 import AdminUploadPage from './pages/AdminUploadPage';
 import AdminDeletePage from './pages/AdminDeletePage';

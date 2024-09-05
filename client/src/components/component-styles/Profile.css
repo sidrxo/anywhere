@@ -1,40 +1,37 @@
-/* src/Profile.css */
-
-.profile-container {
-  justify-content: center;
-  align-items: center;
-  margin-left: 40vw;
-  margin-top: 20vh;  
-  padding: 20px;
-  max-width: fit-content;
-  background-color: #f4f4f4;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-} 
-
-.profile-container h2 {
-  color: #333;
+.profile-details {
+    width: 100%;
+    max-width: 400px; /* Consistent max width */
+    border-radius: 10px;
+    text-align: center;
+    color: white;
 }
 
-.profile-container p {
-  font-size: 16px;
-  color: #555;
+
+.logout-button {
+    width: 60%;
+    padding: 10px;
+    background-color: #191919;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 20px;
 }
 
-.button-container {
-  margin-top: 20px;
+.logout-button:hover {
+    background-color: #333;
 }
 
-.button-container button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
+.uploads-container {
+    margin-top: 30px;
 }
 
-.button-container button:hover {
-  background-color: #0056b3;
+body {
+    transition: opacity 0.4s ease-out;
+    opacity: 1;
+}
+
+body.fade-out {
+    opacity: 0;
 }

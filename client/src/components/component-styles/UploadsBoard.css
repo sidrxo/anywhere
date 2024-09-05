@@ -11,6 +11,7 @@
   margin-bottom: 10px; /* Space below each image, adjusted by 5px */
   display: inline-block;
   width: 100%; /* Ensure images take full width of the column */
+  cursor: pointer;
 }
 
 .uploads-card img {

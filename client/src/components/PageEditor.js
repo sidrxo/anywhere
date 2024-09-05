@@ -48,29 +48,38 @@ const PageEditor = ({ isVisible, onClose, setNumColumns }) => {
   }, [onClose]);
 
   return (
-    <div className={`page-editor ${isVisible ? 'open' : ''} ${isDarkMode ? 'dark-mode' : ''}`} ref={editorRef}>
-      <button className="close" onClick={onClose}>×</button>
-      <div className="editor-section">
-        <h2>size</h2>
-        <input
-          type="range"
-          min="3"
-          max="10"
-          value={numColumns}
-          onChange={handleColumnsChange}
-        />
+    <>
+      {/* Page Editor */}
+      <div className={`page-editor ${isVisible ? 'open' : ''} ${isDarkMode ? 'dark-mode' : ''}`} ref={editorRef}>
+        <button className="close" onClick={onClose}>×</button>
+        <div className="editor-section">
+          <h2>size</h2>
+          <input
+            type="range"
+            min="3"
+            max="10"
+            value={numColumns}
+            onChange={handleColumnsChange}
+          />
+        </div>
+
+        {/* Dark Mode Toggle Switch */}
+        <div className="toggle-switch">
+          <label className="switch-label">
+            <input
+              type="checkbox"
+              className="checkbox"
+              checked={isDarkMode} // Sync with dark mode state
+              onChange={toggleDarkMode} // Toggle dark mode on change
+            />
+            <span className="slider"></span>
+          </label>
+        </div>
       </div>
-      {/* Dark Mode Toggle Button */}
-      <button
-        className="dark-mode-toggle"
-        onClick={toggleDarkMode}
-      >
-        <img
-          src="https://www.svgrepo.com/show/79251/crescent-moon.svg"
-          alt="Toggle Dark Mode"
-        />
-      </button>
-    </div>
+
+      {/* Overlay (placed after Page Editor to stay beneath it) */}
+      {isVisible && <div className="overlay"></div>}
+    </>
   );
 };
 

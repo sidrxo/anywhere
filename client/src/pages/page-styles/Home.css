@@ -2,18 +2,22 @@
   box-sizing: border-box;
   height: 100vh; /* Adjust this based on header height */
   overflow: auto; /* Hides both vertical and horizontal scrollbars */
-  animation: fadeIn 1s ease-out;
+  animation: fadeIn 0.75s ease-out;
   padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 60px;
   overflow: auto; /* Allow scrolling within the container */
   flex: 1; /* Ensure it takes up remaining space below the header */
-  -ms-overflow-style: none; /* Hides scrollbar for Internet Explorer and Edge */
-  scrollbar-width: none; /* Hides scrollbar for Firefox */
 }
 
 .home-container::-webkit-scrollbar {
   display: none; /* Hides the scrollbar for Webkit browsers */
+}
+
+.home-container {
+  -ms-overflow-style: none; /* Hides scrollbar for Internet Explorer and Edge */
+  scrollbar-width: none; /* Hides scrollbar for Firefox */
+  
 }
 
 .gradient-fade {

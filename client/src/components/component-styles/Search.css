@@ -4,17 +4,6 @@
   justify-content: center; /* Center content vertically */
   min-height: 100vh; /* Ensure it takes at least the full viewport height */
   flex-direction: column;
-
-}
-
-.search-bar input {
-  width: 100%; /* Make the input field take the full width of its container */
-  padding: 15px; /* Add padding inside the input field */
-  font-size: 18px; /* Increase font size */
-  border: 2px solid #ccc; /* Add a border */
-  border-radius: 10px; /* Round corners */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Add subtle shadow for better visibility */
-  box-sizing: border-box; /* Ensure padding and border are included in the total width */
 }
 
 .search-bar {
@@ -25,6 +14,31 @@
   justify-content: center; /* Center input horizontally */
   padding-bottom: 20px;
 }
+
+.search-bar input {
+  width: 100%; /* Make the input field take the full width of its container */
+  max-width: 80vw; /* Set a maximum width for the input field */
+  height: 5vh; /* Set a specific height */
+  padding: 12px; /* Add padding inside the input field */
+  font-size: 16px; /* Adjust font size */
+  border-radius: 12px; /* Round corners */
+  border: 1.5px solid lightgrey; /* Border color */
+  outline: none; /* Remove default outline */
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1); /* Transition for smooth effect */
+  box-shadow: 0px 0px 20px -18px; /* Add subtle shadow for better visibility */
+  box-sizing: border-box; /* Ensure padding and border are included in the total width */
+}
+
+.search-bar input:hover {
+  border: 2px solid lightgrey; /* Border color on hover */
+  box-shadow: 0px 0px 20px -17px; /* Adjust shadow on hover */
+}
+
+
+.search-bar input:focus {
+  border: 2px solid grey; /* Border color on focus */
+}
+
 .search-form {
   display: flex;
   gap: 10px;
@@ -32,8 +46,26 @@
 
 .search-form input {
   flex: 1;
-  padding: 10px;
-  font-size: 16px;
+  height: 45px; /* Set the height */
+  padding: 12px; /* Add padding */
+  border-radius: 12px; /* Round corners */
+  border: 1.5px solid lightgrey; /* Border color */
+  outline: none; /* Remove default outline */
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1); /* Transition for smooth effect */
+  box-shadow: 0px 0px 20px -18px; /* Add subtle shadow for better visibility */
+}
+
+.search-form input:hover {
+  border: 2px solid lightgrey; /* Border color on hover */
+  box-shadow: 0px 0px 20px -17px; /* Adjust shadow on hover */
+}
+
+.search-form input:active {
+  transform: scale(0.95); /* Scale down input on active state */
+}
+
+.search-form input:focus {
+  border: 2px solid grey; /* Border color on focus */
 }
 
 .search-form button {
@@ -53,7 +85,7 @@
   gap: 10px;
 }
 
-h2{
+h2 {
   font-size: 30px;
   justify-content: center;
   text-align: center;
@@ -70,6 +102,7 @@ h2{
   margin-bottom: 10px; /* Space below each image, adjusted by 5px */
   display: inline-block;
   width: 100%; /* Ensure images take full width of the column */
+  cursor: pointer;
 }
 
 .search-card img {
@@ -82,4 +115,8 @@ h2{
 .search-board-container {
   overflow: auto; /* Allow scrolling within the container */
   flex: 1; /* Ensure it takes up remaining space below the header */
+}
+
+.search-input::placeholder {
+  color: black; /* Set placeholder text color to black */
 }

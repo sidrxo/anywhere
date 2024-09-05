@@ -38,10 +38,11 @@ const imageSchema = new mongoose.Schema({
   url: String,
   description: String,
   tags: [String], // Store the tags as an array of strings
+  colors: [String], // Store dominant colors as an array of strings
   uploadDate: { type: Date, default: Date.now }, // Automatically set to the current date
   user_uuid: { type: String, required: true } // New field to store user_uuid
-
 });
+
 
 // Model for the images
 const Image = mongoose.model('Image', imageSchema);
@@ -106,19 +107,21 @@ const fetchImageTags = async (imageUrl) => {
   const requestBody = { url: imageUrl };
 
   try {
-    const response = await axios.post(`${VISION_ENDPOINT}/vision/v3.2/analyze?visualFeatures=Tags`, requestBody, {
+    const response = await axios.post(`${VISION_ENDPOINT}/vision/v3.2/analyze?visualFeatures=Tags,Color`, requestBody, {
       headers: {
         'Ocp-Apim-Subscription-Key': VISION_API_KEY,
         'Content-Type': 'application/json',
       },
     });
 
-    return response.data; // The response should contain the tags
+    const { tags, color } = response.data;
+    return { tags, color }; // Return both tags and color information
   } catch (error) {
     console.error('Error fetching image tags:', error.response ? error.response.data : error.message);
     throw new Error('Failed to fetch image tags');
   }
 };
+
 
 app.post('/upload', upload.single('image'), async (req, res) => {
   if (!req.file) return res.status(400).send('No file uploaded.');
@@ -148,14 +151,15 @@ app.post('/upload', upload.single('image'), async (req, res) => {
 
     const imgURL = data.data.url;
     const identifier = await generateUniqueIdentifier();
-    const tags = await analyzeImage(imgURL);
+    const { tags, color } = await fetchImageTags(imgURL);
 
     const newImage = new Image({
       identifier,
       url: imgURL,
       description: req.body.description || '',
       tags: tags.map(tag => tag.name), 
-      user_uuid, // Store the user_uuid with the image
+      colors: color.dominantColors, // Save dominant colors
+      user_uuid,
       uploadDate: new Date()
     });
 
