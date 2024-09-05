@@ -53,7 +53,7 @@ const LoginPage = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:7001/auth/sign-up', { name, email, password });
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/auth/sign-up`, { name, email, password });
       if (response.status === 201) {
         window.location.href = '/profile';
       }
@@ -65,7 +65,7 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:7001/auth/login', { email, password });
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/auth/login`, { email, password });
       if (response.status === 200) {
         window.location.href = '/profile';
       }
@@ -84,7 +84,7 @@ const LoginPage = () => {
   useEffect(() => {
     const fetchRandomImage = async () => {
       try {
-        const response = await axios.get('http://localhost:5050/random-image');
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/random-image`);
         setRandomImageUrl(response.data.url);
       } catch (error) {
         console.error('Error fetching random image:', error);
