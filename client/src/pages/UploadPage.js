@@ -46,7 +46,7 @@ const UploadPage = () => {
 
   return (
     <div className={`upload-page ${isDarkMode ? 'dark-mode' : ''}`}>
-      <h1>Upload Page</h1>
+      <h3>Upload Page</h3>
       <form onSubmit={handleSubmit} className="upload-form">
         <input
           type="file"

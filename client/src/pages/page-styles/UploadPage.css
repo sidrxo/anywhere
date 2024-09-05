@@ -8,16 +8,14 @@
   text-align: center;
   transition: opacity 0.75s ease-out; /* Duration and timing function for the fade-in effect */
   background-color: white; /* Default background color */
+  color: black;
+
 }
+
 
 .upload-page.dark-mode {
   background-color: black; /* Dark background for dark mode */
   color: white; /* White text color for dark mode */
-}
-
-.upload-page h1 {
-  font-size: 2rem;
-  margin-bottom: 20px;
 }
 
 .upload-form {
@@ -29,15 +27,14 @@
 }
 
 .file-input {
-  border-width: 3px;
-  margin-bottom: 10px;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
   padding: 1rem;
   border-radius: 8px;
   font-size: 1rem;
   width: 100%;
-  max-width: 400px;
   color: #000; /* Default text color */
-  border: 1px solid white;
+  border: 1.5px solid white;
 }
 
 .upload-page.dark-mode .file-input {
@@ -78,4 +75,13 @@
 
 .upload-page.dark-mode .message {
   color: #ccc; /* Lighter text color for messages in dark mode */
+}
+
+
+.upload-page h3 {
+  color: black; /* Default text color for the title */
+}
+
+.upload-page.dark-mode h3 {
+  color: white; /* Text color for the title in dark mode */
 }
